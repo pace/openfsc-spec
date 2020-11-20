@@ -713,3 +713,4 @@ This section introduces multiple extensions that can be used. All extensions are
 - [PAN](ext/pan.md)
 - [Receipt Information](ext/receipt-information.md)
 - [Pushing Data](ext/pushing.md)
+- [Payment Method Discovery](ext/payment-methods.md)
