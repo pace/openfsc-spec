@@ -239,7 +239,19 @@ Direction: **Server → Client**
 
 Mark a transaction as cleared from server side. This frees the occupied pump and deletes the corresponding transaction. If the operation was successful, OK will be returned. In case of an error the client returns an ERR message.
 
-**Important:** Please make sure that transactions cleared via OpenFSC are marked as such in the Reconciliation Lists shared with the MOC. eg. by adding a field "Clearance source" with a value "Connected Fueling" to the lists.
+In case the clear could not be acknowledged by the client side due to a network disconnect, the clear is half processed. 
+The transaction can now be in two states, `cleared` and `open`. In case the transaction is still `open` it will be reported by the usual `TRANSACTIONS` call, 
+the server can safely assume the `CLEAR` was never received and retry. In case the transaction was `cleared` the transaction is not reported by the `TRANSACTIONS` call. The server doesn't know if this was caused by the `CLEAR`,
+or a payment in the shop. To resolve the information issue, the server will retry to clear the transaction after the client reconnected.
+If the client reports **403** the payment was done externally and **not** cleared by the server, usually by paying in the shop. If the client reports **410**
+the initial `CLEAR` was processed by the client and the server can now assume that the payment was successfully made. Some clients may only store the transaction
+for a certain time period (e.g. 24h). If the connection is not established for that time period, the client may responds with **404** the transaction isn't known
+any longer, this will cause an expensive back office process and should be avoided if possible. Summary of the errors on retry and how they are understood:
+- **404** Initial clearing was too long ago, the client doesn't known about the transaction any longer → back office process
+- **403** The payment was done otherwise → the payment transaction will be canceled
+- **410** The transaction was accepted → transaction successful
+
+**Important:** Please make sure that transactions cleared via OpenFSC are marked as such in the **reconciliation lists** shared with the MOC. eg. by adding a field "Clearance source" with a value "Connected Fueling" and the used **PaymentMethod** to the lists.
 
 Arguments:
 
