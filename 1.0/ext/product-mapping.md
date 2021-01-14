@@ -19,7 +19,7 @@ Arguments:
 
 Type: **Request/Response**
 
-Get all available products categorised as the following types: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, **ron91**, **ron95e5**, **ron100**, **dieselGtl**, **dieselB7**, **dieselB15**, **dieselPremium**, **lpg**, **cng**, **lng**, **h2**, **truckDiesel**, **adBlue**, **truckAdBlue.** The client needs to make sure that all products have been transmitted with PRODUCT notifications before he can send an OK to conclude the PRODUCTS request. In case of an error the client returns an ERR message.
+Get all available products categorised as the following types: **ron98**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types). The client needs to make sure that all products have been transmitted with PRODUCT notifications before he can send an OK to conclude the PRODUCTS request. In case of an error the client returns an ERR message.
 
 Arguments: **None**
 
@@ -54,3 +54,27 @@ product_method = "PRODUCT"
 
 products_method = "PRODUCTS" .
 ```
+
+### Product types
+Full list of all known product types
+* `adBlue`
+* `cng`
+* `diesel`
+* `dieselB0`
+* `dieselB7`
+* `dieselB15`
+* `dieselGtl`
+* `dieselPremium`
+* `e85`
+* `h2`
+* `heatingOil`
+* `lng`
+* `lpg`
+* `ron95e5`
+* `ron95e10`
+* `ron98e5`
+* `ron100`
+* `truckAdBlue`
+* `truckDiesel`
+* `truckDieselPremium`
+* `truckLpg`
