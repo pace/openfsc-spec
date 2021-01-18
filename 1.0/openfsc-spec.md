@@ -41,7 +41,7 @@ The Fueling Site Connect API is hereinafter referred to as "OpenFSC".
 
 The payment process is not directly part of this document, due to the fact, that payment is the responsibility of the OpenFSC server side. The server is signaling to the gas station, that the fueling was payed.
 
-On-boarding of the gas station requires some meta data about the station. That includes but is not limited to data like the address, the geolocation (latitude, longitude), brand and station name. The data is important for the customer to be routed to a gas station, understand the current pump selection or allow the app to automatically find the correct gas station for a given location.
+On-boarding of the gas station requires some meta data about the station. That includes but is not limited to data like the address, the geo location (latitude, longitude), brand and station name. The data is important for the customer to be routed to a gas station, understand the current pump selection or allow the app to automatically find the correct gas station for a given location.
 
 However, there's a document outlining expected data and ways to integrate:
 
@@ -57,7 +57,7 @@ The documentation for the API and the interaction between the App and the Connec
 - In order to connect the POS or any dedicated hardware to an OpenFSC server, an internet connection in conjunction with simple but secure communication protocols is used.
 - On the customer side, multiple clients are implementing the Connected Fueling API, ranging from HMI (Human Machine Interfaces) in new cars to retrofit solutions like the PACE Car platform, PACE Drive and many other mobility-focussed mobile apps.
 
-![assets/achitecture-overview.png](assets/achitecture-overview.png)
+![assets/architecture-overview.png](assets/achitecture-overview.png)
 
 ## 2.1 Parties
 
@@ -80,7 +80,7 @@ The following minimal requirements are assumed when implementing OpenFSC:
 
 - An internet connection
 - Ability to connect to an OpenFSC server via either
-  - Secure Websockets over port 443 (TLS 1.2)
+  - Secure WebSockets over port 443 (TLS 1.2)
   - Plaintext based TCP stream protocol over a secured VPN (eg. IPSec)
 - Access to the pump status information for all pumps
 - Ability to inform OpenFSC server about changes of the pump status
@@ -126,7 +126,7 @@ The protocol is independent of the particular transmission subsystem and require
 
 A single communication channel is always distinct to a single client server pair. This means each connection is directly related to a real Site. Currently there are no plans to enable multiple Site connections over one communication path.
 
-The Site has to initiate the connection to the OpenFSC server. In case the connection dropped the Site needs to reconnect immediatly.
+The Site has to initiate the connection to the OpenFSC server. In case the connection dropped the Site needs to reconnect immediately.
 
 ## 4.1 Plain Text Protocol
 
@@ -138,7 +138,7 @@ The protocol consists of predefined messages. A message always starts with a so 
 
 All message fields except the termination sequence <CRLF> are separated by spaces and the default message encoding is `ASCII`. To change the encoding a special method called `CHARSET` can be used which is described in a later section.
 
-To establish a connection, the client first establishes a data channel (e.g.: TCP) to the server and starts a handshaking process to establish the actual Site API connection. This initialisation phase is a so-called "Not Authenticated State" and consists of a special sequence of messages to negotiate the communication contract between the server and the client. The first message from both sides always has to be a notification with a `CAPABILITY` message. If an error occurs on either side the corresponding party will disconnect and optionally send a `QUIT` notification with further information about the error. In case of a successful capability exchange, the client can change the protocol encoding by sending one of the available encoding messages specified further below. The initialisation phase will be concluded with an authentication message like `PLAINAUTH`. If everything was successful, the connection is considered established and transitions into a so-called "Authenticated State".
+To establish a connection, the client first establishes a data channel (e.g.: TCP) to the server and starts a handshaking process to establish the actual Site API connection. This initialization phase is a so-called "Not Authenticated State" and consists of a special sequence of messages to negotiate the communication contract between the server and the client. The first message from both sides always has to be a notification with a `CAPABILITY` message. If an error occurs on either side the corresponding party will disconnect and optionally send a `QUIT` notification with further information about the error. In case of a successful capability exchange, the client can change the protocol encoding by sending one of the available encoding messages specified further below. The initialization phase will be concluded with an authentication message like `PLAINAUTH`. If everything was successful, the connection is considered established and transitions into a so-called "Authenticated State".
 
 ![assets/site-api-connection-example.png](assets/site-api-connection-example.png)
 
@@ -180,7 +180,7 @@ C: S1 OK
 
 ### 4.1.2 Methods and Arguments
 
-A message represents an operation that should be performed by the receiving side. Each message consists of a method and a list of defined arguments. Each method has its own arguments and messacge type (Request/Response or Notification). The name of the method must follow the format `letter { letter | digit }` while all normal arguments (`arg0`- `argN`) can use all characters of the specified encoding except control characters and space (`"\x21"…"\x7E"`). The method and all arguments are separated by spaces. The last argument can be a so called "variadic" argument (`argV`) which supports a sequence of any character compatible with the negotiated protocol encoding besides <CRLF> (`"\x00"…"\xff" - "\r" - "\n"`). The last argument (`argN` or `argV`) as well as the whole message is terminated by <CRLF> (`\r\n`).
+A message represents an operation that should be performed by the receiving side. Each message consists of a method and a list of defined arguments. Each method has its own arguments and message type (Request/Response or Notification). The name of the method must follow the format `letter { letter | digit }` while all normal arguments (`arg0`- `argN`) can use all characters of the specified encoding except control characters and space (`"\x21"…"\x7E"`). The method and all arguments are separated by spaces. The last argument can be a so called "variadic" argument (`argV`) which supports a sequence of any character compatible with the negotiated protocol encoding besides <CRLF> (`"\x00"…"\xff" - "\r" - "\n"`). The last argument (`argN` or `argV`) as well as the whole message is terminated by <CRLF> (`\r\n`).
 
 #### Handshake/Not Authenticated State
 
@@ -239,7 +239,19 @@ Direction: **Server → Client**
 
 Mark a transaction as cleared from server side. This frees the occupied pump and deletes the corresponding transaction. If the operation was successful, OK will be returned. In case of an error the client returns an ERR message.
 
-**Important:** Please make sure that transactions cleared via OpenFSC are marked as such in the Reconsiliation Lists shared with the MOC. eg. by adding a field "Clearance source" with a value "Connected Fueling" to the lists.
+In case the clear could not be acknowledged by the client side due to a network disconnect, the clear is half processed. 
+The transaction can now be in two states, `cleared` and `open`. In case the transaction is still `open` it will be reported by the usual `TRANSACTIONS` call, 
+the server can safely assume the `CLEAR` was never received and retry. In case the transaction was `cleared` the transaction is not reported by the `TRANSACTIONS` call. The server doesn't know if this was caused by the `CLEAR`,
+or a payment in the shop. To resolve the information issue, the server will retry to clear the transaction after the client reconnected.
+If the client reports **403** the payment was done externally and **not** cleared by the server, usually by paying in the shop. If the client reports **410**
+the initial `CLEAR` was processed by the client and the server can now assume that the payment was successfully made. Some clients may only store the transaction
+for a certain time period (e.g. 24h). If the connection is not established for that time period, the client may responds with **404** the transaction isn't known
+any longer, this will cause an expensive back office process and should be avoided if possible. Summary of the errors on retry and how they are understood:
+- **404** Initial clearing was too long ago, the client doesn't known about the transaction any longer → back office process
+- **403** The payment was done otherwise → the payment transaction will be canceled
+- **410** The transaction was accepted → transaction successful
+
+**Important:** Please make sure that transactions cleared via OpenFSC are marked as such in the **reconciliation lists** shared with the MOC. eg. by adding a field "Clearance source" with a value "Connected Fueling" and the used **PaymentMethod** to the lists.
 
 Arguments:
 
@@ -260,7 +272,7 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Check if the client is still available and try to calculate the time drift between server and client. This method is issued occassionally to detect the time drift and if there has been no communication between server and client for some time. The client answers with a tagged BEAT message before sending an OK. If an error occured the client returns an ERR message.
+Check if the client is still available and try to calculate the time drift between server and client. This method is issued occasionally to detect the time drift and if there has been no communication between server and client for some time. The client answers with a tagged BEAT message before sending an OK. If an error occurred the client returns an ERR message.
 
 Arguments:
 
@@ -301,7 +313,7 @@ Arguments:
 - **ProductID** (arg0, string): identifier of the product. (e.g.: 0100)
 - **Unit** (arg1, string): unit used by the subsequent **PricePerUnit** argument. Supported values: **LTR**
 - **Currency** (arg2, string): currency used by the subsequent **PricePerUnit** argument. Supported values: **EUR**
-- **PricePerUnit** (arg3, decimal): enduser price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339)
+- **PricePerUnit** (arg3, decimal): end user price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339)
 - **Description** (argV): human readable name/description of the product. (e.g.: Super Plus)
 
 ##### `PRICES`
@@ -376,7 +388,7 @@ Arguments:
 - **VATAmount** (arg8, decimal): amount of VAT used in the previous **PriceWithVAT** argument in the specified **Currency** (arg4). \*\*\*\*(e.g. for EUR: 13.65)
 - **Unit** (arg9, string): unit used by the subsequent **Volume** argument. Supported values: **LTR**
 - **Volume** (arg10, decimal): amount of product used in the specified **Unit** (arg9). (e.g. for LTR: 54.40)
-- **PricePerUnit** (arg11, decimal): enduser price per unit including VAT in the specified **Unit** (arg9) and the specified **Currency** (arg4). (e.g. for EUR/LTR: 1.339)
+- **PricePerUnit** (arg11, decimal): end user price per unit including VAT in the specified **Unit** (arg9) and the specified **Currency** (arg4). (e.g. for EUR/LTR: 1.339)
 
 ##### `TRANSACTIONS`
 
@@ -384,7 +396,7 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Get all open or deferred transactions of the site or a specified pump (optional). The client needs to make sure that all transactions have been transmitted with TRANSACTION notifications before he can send an OK to conclude the TRANSACTIONS request. In case of an error the client returns an ERR message. The transactions may be requested after the successful connection of a client with sessionmode active in order to clear open transactions.
+Get all open or deferred transactions of the site or a specified pump (optional). The client needs to make sure that all transactions have been transmitted with TRANSACTION notifications before he can send an OK to conclude the TRANSACTIONS request. In case of an error the client returns an ERR message. The transactions may be requested after the successful connection of a client with session mode active in order to clear open transactions.
 
 Arguments:
 
@@ -469,7 +481,7 @@ Arguments:
 - **Code** (arg0, number): one of the following error codes
   - **400** Bad request (invalid method, args or tag)
   - **403** Method is issued in wrong connection state (Handshake method in "Not Authenticated State" and vice versa)
-  - **405** Method unkown
+  - **405** Method unknown
   - **406** Wrong encoding (bytes don't comply with the current encoding)
   - **500** Internal server error
 - **Message** (argV): human readable error message
@@ -560,13 +572,13 @@ currency = "EUR" .
 unit = "LTR" .
 
 pump_status = "free" |
-        "in-use" |
-        "ready-to-pay" |
-        "locked" |
-        "out-of-order" .
+	"in-use" |
+	"ready-to-pay" |
+	"locked" |
+	"out-of-order" .
 
 transaction_status = "open" |
-               "deferred" .
+	"deferred" .
 
 method = "BEAT" |
    "CHARSET" |
@@ -586,8 +598,8 @@ method = "BEAT" |
    "UNLOCKPUMP" .
 
 encoding = "WINDOWS-1252" |
-     "ISO-8859-1" |
-     "UTF-8" .
+	"ISO-8859-1" |
+	"UTF-8" .
 
 capabilty_method = "CAPABILITY"
 	{ space methods } .
