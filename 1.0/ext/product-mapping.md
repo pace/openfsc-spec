@@ -12,7 +12,7 @@ Product with its ID, categorised as stated in PRODUCTS. Should only be sent as r
 Arguments:
 
 - **ProductID** (arg0, string): identifier of the product. (e.g.: 0100)
-- **Category** (arg1, string): category of the provided product. Needs to be one of: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, **ron91**, **ron95e5**, **ron100**, **dieselGtl**, **dieselB7**, **dieselB15**, **dieselPremium**, **lpg**, **cng**, **lng**, **h2**, **truckDiesel**, **adBlue**, **truckAdBlue.**
+- **Category** (arg1, string): category of the provided product. Needs to be one of: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types).
 - **VATRate** (arg2, decimal): rate of VAT used for this product in percent. (e.g.: 19.0)
 
 ## `PRODUCTS`
@@ -72,6 +72,7 @@ Full list of all known product types
 * `lpg`
 * `ron95e5`
 * `ron95e10`
+* `ron98`
 * `ron98e5`
 * `ron100`
 * `truckAdBlue`
