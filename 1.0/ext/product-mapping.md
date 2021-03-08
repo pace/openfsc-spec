@@ -59,17 +59,22 @@ products_method = "PRODUCTS" .
 Full list of all known product types
 * `adBlue`
 * `cng`
+* `careDiesel`
 * `diesel`
 * `dieselB0`
 * `dieselB7`
 * `dieselB15`
+* `dieselB20`
+* `dieselBMix`
 * `dieselGtl`
 * `dieselPremium`
+* `e50`
 * `e85`
 * `h2`
 * `heatingOil`
 * `lng`
 * `lpg`
+* `methanol`
 * `ron95e5`
 * `ron95e10`
 * `ron98`
@@ -79,3 +84,4 @@ Full list of all known product types
 * `truckDiesel`
 * `truckDieselPremium`
 * `truckLpg`
+* `vegetableOil`
