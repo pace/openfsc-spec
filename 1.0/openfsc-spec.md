@@ -57,7 +57,7 @@ The documentation for the API and the interaction between the App and the Connec
 - In order to connect the POS or any dedicated hardware to an OpenFSC server, an internet connection in conjunction with simple but secure communication protocols is used.
 - On the customer side, multiple clients are implementing the Connected Fueling API, ranging from HMI (Human Machine Interfaces) in new cars to retrofit solutions like the PACE Car platform, PACE Drive and many other mobility-focussed mobile apps.
 
-![assets/architecture-overview.png](assets/achitecture-overview.png)
+![assets/architecture-overview.png](assets/architecture-overview.png)
 
 ## 2.1 Parties
 
