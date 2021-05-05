@@ -79,4 +79,4 @@ Connected Fueling allows gas stations to secure market share, gain new customers
 - Making the shop **more efficient** overall as there is less manual work at POS (less people to handle).
 - **Less cash handling will save costs** and make the whole operation safer.
 
-For more information, have a look at our website: [connectedfueling.com/for-partners](//www.connectedfueling.com/for-partners/)
+For more information, have a look at our website: [connectedfueling.com/partner](//www.connectedfueling.com/partner)
