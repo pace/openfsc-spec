@@ -312,7 +312,7 @@ Arguments:
 
 - **ProductID** (arg0, string): identifier of the product. (e.g.: 0100)
 - **Unit** (arg1, string): unit used by the subsequent **PricePerUnit** argument. Supported values: **LTR**
-- **Currency** (arg2, string): currency used by the subsequent **PricePerUnit** argument. Supported values: **EUR**
+- **Currency** (arg2, string): currency used by the subsequent **PricePerUnit** argument. Supported values, see [Supported Currencies](#416-supported-currencies), for example **EUR**.
 - **PricePerUnit** (arg3, decimal): end user price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339)
 - **Description** (argV): human readable name/description of the product. (e.g.: Super Plus)
 
@@ -381,7 +381,7 @@ Arguments:
 - **SiteTransactionID** (arg1, string): ID of this transaction (defined by the client, site) in case of the Post Pay Process. In case of the Pre Pay Process the SiteTransactionID is the **FSCTransactionID** (provided on `UNLOCKPUMP`).
 - **Status** (arg2, string): the current status of the transaction. Must be either **open** or **deferred**. A transaction is **open** if the payment has not yet been settled and the pump is **ready-to-pay** or **locked**. A transaction is **deferred** if it was previously **open** but the pump was released again by the site operator (set to **free**). This could be the case if a customer was not able to pay his fueling and the site operator needs to take further actions. To not block the pump for other customers, the site operator releases it again and the transaction previously **open** for said pump will be marked as **deferred.**
 - **ProductID** (arg3, string): identifier for the used product.
-- **Currency** (arg4, string): currency used by the subsequent **PriceWithVAT, PriceWithoutVAT** and **VATAmount** argument. Supported values: **EUR**
+- **Currency** (arg4, string): currency used by the subsequent **PriceWithVAT, PriceWithoutVAT** and **VATAmount** argument. Supported values, see [Supported Currencies](#416-supported-currencies), for example **EUR**.
 - **PriceWithVAT** (arg5, decimal): price including VAT, associated with the current transaction in the specified **Currency** (arg4). (e.g for EUR: 86.83)
 - **PriceWithoutVAT** (arg6, decimal): price excluding VAT, associated with the current transaction in the specified **Currency** (arg4). (e.g. for EUR: 72.97)
 - **VATRate** (arg7, decimal): rate of VAT used in the previous **PriceWithVAT** argument in percent. (e.g.: 19.0)
@@ -419,7 +419,7 @@ Unlock a locked pump with prepaid credit for a subsequent fueling process. If th
 Arguments:
 
 - **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
-- **Currency** (arg1, string): currency used by the subsequent **Credit** argument. Supported values: **EUR**
+- **Currency** (arg1, string): currency used by the subsequent **Credit** argument. Supported values, see [Supported Currencies](#416-supported-currencies), for example **EUR**.
 - **Credit** (arg2, decimal): credit available for the upcoming fueling process in the specified **Currency** (arg1). (e.g. for EUR: 100.00)
 - **FSCTransactionID** (arg3, uuid): ID given by the server for informational reasons (defined by the server). Will be returned with the corresponding `TRANSACTION` notification, to correlate the transactions.
 - **PaymentMethod** (arg3, string): Name of the payment method used e.g. `pace`, `dkv`, ...
@@ -725,3 +725,6 @@ This section introduces multiple extensions that can be used. All extensions are
 - [PAN](ext/pan.md)
 - [Receipt Information](ext/receipt-information.md)
 - [Pushing Data](ext/pushing.md)
+
+### 4.1.6 Supported Currencies
+All currencies of ISO 4217 are supported, see https://en.wikipedia.org/wiki/ISO_4217.
