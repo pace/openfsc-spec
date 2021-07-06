@@ -14,7 +14,8 @@ Arguments:
 - **ProductID** (arg0, string): identifier of the product. (e.g.: 0100)
 - **Category** (arg1, string): category of the provided product. Needs to be one of: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types).
 - **VATRate** (arg2, decimal): rate of VAT used for this product in percent. (e.g.: 19.0)
-
+- **Unit** *optional* (arg3, string): unit use for the fuel. (e.g.: LTR)
+- **OptionalName** *optional* (arg4, string): optional fuel name. (e.g.: Super Müller T. diesel)
 ## `PRODUCTS`
 
 Type: **Request/Response**
@@ -42,6 +43,22 @@ C: * PRODUCT 0200 ron95 19.0
 C: * PRODUCT 0300 ron95e5 19.0
 C: * PRODUCT 0400 diesel 19.0
 C: S3 OK
+```
+
+We also leave the possibility to use products without giving any price. It's strongly recommend in that case to use the optionals parameters (**Unit**, **OptionalName**: required together)
+
+## Example
+
+```
+S: S1 PUMPS
+C: * PUMP 1 locked
+C: * PUMP 2 locked
+C: S1 OK
+S: S2 PRODUCTS
+C: * PRODUCT 0100 ron98 19.0 LTR Test fuel Name
+C: * PRODUCT 0300 ron95e5 19.0 LTR Super Fuel
+C: * PRODUCT 0400 diesel 19.0
+C: S2 OK
 ```
 
 ## EBNF
