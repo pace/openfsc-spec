@@ -190,11 +190,13 @@ Type: **Notification**
 
 Direction: **Server → Client, Client → Server**
 
-Always the first message issued by both parties. Information about the available methods of the sending party. If an error occurs while receiving/processing the capabilities of the other party, the recipient should terminate the connection. Optionally he can send a **QUIT** message to provide extra information before triggering the disconnect.
+This is the first message always issued by both parties respectively, containing information about the available methods of the sending party. If an error occurs while receiving/processing the capabilities of the other party, the recipient should terminate the connection. Optionally he can send a **QUIT** message to provide extra information before triggering the disconnect.
 
 Arguments:
 
 - **Whitespace separated list of methods supported by the sending party**
+
+Please note that the list of capabilities is of variable (not fixed) length.
 
 ##### `CHARSET` (Encoding Method)
 
