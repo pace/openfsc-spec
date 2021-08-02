@@ -20,7 +20,7 @@ Arguments:
 
 Type: **Request/Response**
 
-Get all available products categorised as the following types: **ron98**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types). The client needs to make sure that all products have been transmitted with PRODUCT notifications before he can send an OK to conclude the PRODUCTS request. In case of an error the client returns an ERR message.
+Get all available products categorised as the following types: **ron98**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types). The client needs to make sure that all products have been transmitted with PRODUCT notifications before they can send an OK to conclude the PRODUCTS request. In case of an error the client returns an ERR message.
 
 Arguments: **None**
 
