@@ -723,6 +723,7 @@ This section introduces multiple extensions that can be used. All extensions are
 - [Product Mapping](ext/product-mapping.md)
 - [High Availability](ext/ha.md)
 - [PAN](ext/pan.md)
+- [TRANSACTIONINFO](ext/transaction-info.md)
 - [Receipt Information](ext/receipt-information.md)
 - [Pushing Data](ext/pushing.md)
 
