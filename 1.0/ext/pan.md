@@ -1,5 +1,7 @@
 # PAN (`PAN`)
 
+**NOTE: This extension is discontinued, [Transaction Information](ext/transaction-info.md) should be used instead.**
+
 A client may need the PAN for clearing. To signal the server that a PAN is required, the new message type `PAN` is introduced. If the `PAN` capability is announced by the client, the server will send the PAN for the transaction before clearing (`CLEAR`). Since a PAN is a very sensitive piece of information, the OpenFSC server can neglect to send the PAN even if requested by the client. Eligibility for the PAN is stored in the OpenFSC backend and has to be agreed on business-wise.
 
 ## `PAN`

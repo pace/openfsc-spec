@@ -1,22 +1,28 @@
-# TRANSACTIONINFO (`TRANSACTIONINFO`)
+# Transaction Information (`TRANSACTIONINFO`)
 
-A client may need the TRANSACTIONINFO in case of payment by card. To signal the server that the TRANSACTIONINFO is required, the new message type `TRANSACTIONINFO` is introduced. If the `TRANSACTIONINFO` capability is announced by the client, the server will send the Info for the transaction before clearing (`CLEAR`) and before (`UNLOCKPUMP`) in case of pre-auth. Since those information are very sensitive, the OpenFSC server can neglect to send the TRANSACTIONINFO even if requested by the client. Eligibility for the TRANSACTIONINFO is stored in the OpenFSC backend and has to be agreed on business-wise.
+A client may need the TRANSACTIONINFO in case of payment by card. To signal the server that the TRANSACTIONINFO is accepted, the new message type `TRANSACTIONINFO` is introduced. If the `TRANSACTIONINFO` capability is announced by the client, the server will send the Info for the transaction before clearing (`CLEAR`) and before (`UNLOCKPUMP`) in case of pre-auth. 
+
+**Since this information is very sensitive, the OpenFSC server can neglect to send the TRANSACTIONINFO even if accepted by the client. Eligibility for the TRANSACTIONINFO is stored in the OpenFSC backend and has to be agreed on business-wise.**
 
 ## `TRANSACTIONINFO`
 
 Type: **Notification**
 
-Prepares the PAN, ApprovalCode and Mileage information to execute a later CLEAR or a UNLOCKPUMP.
+Provides transaction info like the PAN, ApprovalCode and Mileage information to execute a later CLEAR or UNLOCKPUMP.
 
 Arguments:
 
 - **FSCTransactionID** (arg0, uuid): ID given by the server for informational reasons (defined by the server).
+- **Key** (arg1, string): Key following by the corresponding value
+- **Value** (arg2, string): Value depending on the key
 
-- **<PAN/ApprovalCode/Mileage>** (arg1, string): Key following by the corresponding value
+Defined key-value pairs:
 
-- **PAN** (arg2, string): PAN is the 19 chars primary account number
-- **ApprovalCode** (arg2, string): ApprovalCode is the 6 chars approval code number
-- **Mileage** (arg2, string): Mileage is the 6 chars number
+|Key|Type|Description|
+|-|-|-|
+|`PAN`|string|PAN is the 19 to 21 digits primary account number|
+|`ApprovalCode`|number|ApprovalCode is the 6 digits approval code number (IFSF H2H)|
+|`Mileage`|number|Mileage is the odometer reading of the vehicle of up to 7 digits (usually in km/miles resolution)|
 
 ## Example
 
