@@ -719,7 +719,7 @@ message = tag space ( any_method ) "\r\n" .
 
 ### 4.1.5 Protocol Extensions
 
-This section introduces multiple extensions that can be used. All extensions are optional and the communicating parties agree about used extensions with the `CAPABILITY` command.
+This section introduces multiple extensions that can be used. All extensions are optional and the communicating parties agree about used extensions with the `CAPABILITY` command. In other words, if a capability is implemented both sides need to be announcing the capability via the `CAPABILITY` message. The server and the client announce the respective commands they are handling.
 
 - [Connection Multiplexing](ext/connection-multiplexing.md)
 - [Product Mapping](ext/product-mapping.md)
