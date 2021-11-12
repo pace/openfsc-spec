@@ -6,6 +6,8 @@ In order for a site to take over the responsibility the client needs to send the
 
 Pushing transactions is special, since `TRANSACTIONS` is still invoked in case of the Post Pay process, to not push all transactions every time a fueling takes place. Announcing `TRANSACTION` works only for pre auth transactions. Pushed transactions in post pay will be accepted but don't omit the call to the site.
 
+**Important:** Every command that will we pushed need to be completely implemented as a capability. E.g. if transactions are pushed, the client still need to announce the `TRANSACTIONS` capability, if pumps are pushed the `PUMPS` capability is still required, same for `PRODUCTS`, `PRICES` and all other pushable commands.
+
 ## `PUSH`
 
 Type: **Request/Response**
