@@ -23,7 +23,6 @@ The OpenFSC protocol is used by several companies, apps and products under the h
 - [Connected Fueling for Web](//fuel.site) is a browser based solution to pay directly at the gas station pump with your smartphone without installing an app.
 - [DKV Mobility App](//www.dkv-euroservice.com/de/leistungen/leistungen-and-services/weitere-produkte/dkv-app/) supports drivers throughout Europe in their search for gas stations and vehicle service stations with DKV acceptance.
 - [Hoyer Energie + Technik](//www.hoyer.de) is a mobile app to pay mobile at Hoyer stations in whole Germany.
-- [PACE Car](//www.pace.car) is a aftermarket telematics platform for cars developed by [PACE Telematics GmbH](//business.pace.car).
 - [PACE Drive](//drive.pace.car) is a gas station finder app for whole Europe. The app is free to use and can be found in the [Apple App Store](//apps.apple.com/app/apple-store/id1483917851) and the [Google Play Store](//play.google.com/store/apps/details?id=car.pace.drive).
 - .. there are many more under development - ready to be released, soon.
 
@@ -40,17 +39,12 @@ The OpenFSC protocol is used by several companies, apps and products under the h
 
 **Testing & Integration Utilities**
 
-- [Fueling Simulator](https://fueling-simulator-app.sandbox.k8s.pacelink.net/) is a little frontend used to simulate a gas station for development or presentation purposes. It uses the **JavaScript Client Library** to connect to Connected Fueling via OpenFSC protocol.
-- [OpenFSC Debugger](https://openfsc-debugger.sandbox.k8s.pacelink.net) _(coming soon)_ is a OpenFSC proxy, logger and protocol analyzer that can be used to debug or verify protocol implementations.
-- [PACE Developer Hub](//developer.pace.cloud) _(coming soon)_: Beside tons of documentation for all the PACE services, the **Developer Hub** has the ability to create credentials for the PACE Cloud Sandbox environment to develop, test and verify your own protocol implementation or integration.
+- [Fueling Simulator] is a little frontend used to simulate a gas station for development or presentation purposes. It uses the **JavaScript Client Library** to connect to Connected Fueling via OpenFSC protocol. Will be provided by PACE with your credentials.
+- [PACE Docs](//docs.pace.cloud)
 
 ## Contributing
 
 If you are interested in contributing please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
-
-## Authors
-
-[Philip Blatter](//github.com/pnull), [Vincent Landgraf](//github.com/threez), [Nico Mürdter](//github.com/Smuerdt)
 
 ## License
 
@@ -79,4 +73,4 @@ Connected Fueling allows gas stations to secure market share, gain new customers
 - Making the shop **more efficient** overall as there is less manual work at POS (less people to handle).
 - **Less cash handling will save costs** and make the whole operation safer.
 
-For more information, have a look at our website: [connectedfueling.com/partner](//www.connectedfueling.com/partner)
+For more information, have a look at our website: [connectedfueling.com](//www.connectedfueling.com)
