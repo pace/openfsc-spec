@@ -45,7 +45,7 @@ On-boarding of the gas station requires some meta data about the station. That i
 
 However, there's a document outlining expected data and ways to integrate:
 
-- [PACE POI Service: Gas Station Data](https://www.notion.so/PACE-POI-Service-Gas-Station-Data-4146aeec34fa462c99d40c88286a3b2a)
+- [PACE POI Service: Gas Station Data](https://docs.pace.cloud/en/services/poi-service/gas-station-data)
 
 The documentation for the API and the interaction between the App and the Connected Fueling API can be found here:
 
