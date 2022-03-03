@@ -122,9 +122,9 @@ Both processes start by updating the current pumps and price information, in ord
 
 This section specifies the general communication protocol between a Site and the OpenFSC server.
 
-The protocol is independent of the particular transmission subsystem and requires only a reliable and ordered data channel (e.g. WSS or TCP stream). Furthermore, all specifications here should be portable to multiple formats like binary, json or xml. However, in this document we illustrate the protocol in a plain text encoding.
+The protocol is independent of the particular transmission subsystem and requires only a reliable and ordered data channel (e.g. WSS or TCP stream). Furthermore, all specifications here should be portable to multiple formats like binary, JSON or XML. However, in this document we illustrate the protocol in a plain text encoding.
 
-A single communication channel is always distinct to a single client server pair. This means each connection is directly related to a real Site. Currently there are no plans to enable multiple Site connections over one communication path.
+Ususally, a single communication channel is distinct to a single client-server pair. You can use the [Connection Multiplexing](ext/connection-multiplexing.md) extension in your implementation if you would like to connect multiple Sites through a single client-server connection. 
 
 The Site has to initiate the connection to the OpenFSC server. In case the connection dropped the Site needs to reconnect immediately.
 
