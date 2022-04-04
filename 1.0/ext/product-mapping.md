@@ -16,6 +16,7 @@ Arguments:
 - **VATRate** (arg2, decimal): rate of VAT used for this product in percent. (e.g.: 19.0)
 - **Unit** *optional* (arg3, string): unit use for the fuel. (e.g.: LTR)
 - **OptionalName** *optional* (arg4, string): optional fuel name. (e.g.: Super Müller T. diesel)
+
 ## `PRODUCTS`
 
 Type: **Request/Response**
@@ -24,9 +25,9 @@ Get all available products categorised as the following types: **ron98**, **ron9
 
 Arguments: **None**
 
-## Example
+## Example (with price)
 
-```
+```text
 S: S1 PUMPS
 C: * PUMP 1 locked
 C: * PUMP 2 locked
@@ -47,9 +48,9 @@ C: S3 OK
 
 We also leave the possibility to use products without giving any price. It's strongly recommend in that case to use the optionals parameters (**Unit**, **OptionalName**: required together)
 
-## Example
+## Example (without price)
 
-```
+```text
 S: S1 PUMPS
 C: * PUMP 1 locked
 C: * PUMP 2 locked
@@ -63,42 +64,46 @@ C: S2 OK
 
 ## EBNF
 
-```bash
+```text
 product_method = "PRODUCT"
-	space string
-	space string
-	space decimal .
+    space string
+    space string
+    space decimal .
 
 products_method = "PRODUCTS" .
 ```
 
 ### Product types
-Full list of all known product types
-* `adBlue`
-* `cng`
-* `careDiesel`
-* `diesel`
-* `dieselB0`
-* `dieselB7`
-* `dieselB15`
-* `dieselB20`
-* `dieselBMix`
-* `dieselGtl`
-* `dieselPremium`
-* `e50`
-* `e85`
-* `h2`
-* `heatingOil`
-* `lng`
-* `lpg`
-* `methanol`
-* `ron95e5`
-* `ron95e10`
-* `ron98`
-* `ron98e5`
-* `ron100`
-* `truckAdBlue`
-* `truckDiesel`
-* `truckDieselPremium`
-* `truckLpg`
-* `vegetableOil`
+
+Full list of all product types that can be used in OpenFSC
+
+| Product Type         | Description                                                             |
+| -------------------- | ----------------------------------------------------------------------- |
+| `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                         |
+| `cng`                | Compressed natural gas                                                  |
+| `careDiesel`         |                                                                         |
+| `diesel`             | Diesel fuel                                                             |
+| `dieselB0`           | Diesel fuel (0% bio additives)                                          |
+| `dieselB7`           | Diesel fuel (up to 7% bio additives)                                    |
+| `dieselB15`          | Diesel fuel (up to 15% bio additives)                                   |
+| `dieselB20`          | Diesel fuel (up to 20% bio additives)                                   |
+| `dieselBMix`         | Diesel fuel (unspecified amount of additives)                           |
+| `dieselGtl`          |                                                                         |
+| `dieselPremium`      |                                                                         |
+| `e50`                |                                                                         |
+| `e85`                |                                                                         |
+| `h2`                 |                                                                         |
+| `heatingOil`         | Heating oil (note: most likely not used to power vehicles!)             |
+| `lng`                | Liquefied natural gas                                                   |
+| `lpg`                | Liquefied petroleum gas (propane and butane)                            |
+| `methanol`           |                                                                         |
+| `ron95e5`            | RON 95 grade gasoline (up to 5% bio additives)                          |
+| `ron95e10`           | RON 95 grade gasoline (up to 10% bio additives)                         |
+| `ron98`              | RON 98 grade gasoline                                                   |
+| `ron98e5`            | RON 98 grade gasoline (up to 5% bio additives)                          |
+| `ron100`             | RON 100 grade gasoline                                                  |
+| `truckAdBlue`        | AdBlue Diesel exhaust fluid (DEF, also: AUS 32) for commercial vehicles |
+| `truckDiesel`        | Diesel for commercial vehicles                                          |
+| `truckDieselPremium` | Premium Diesel for commercial vehicles                                  |
+| `truckLpg`           | Liquefied petroleum gas for commercial vehicles                         |
+| `vegetableOil`       | Vegetable oil (note: most likely not used to power vehicles!)           |
