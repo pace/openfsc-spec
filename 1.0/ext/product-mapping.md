@@ -81,18 +81,18 @@ Full list of all product types that can be used in OpenFSC
 | -------------------- | ----------------------------------------------------------------------- |
 | `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                         |
 | `cng`                | Compressed natural gas                                                  |
-| `careDiesel`         |                                                                         |
+| `careDiesel`         | C.A.R.E. Diesel (synthetic)                                             |
 | `diesel`             | Diesel fuel                                                             |
 | `dieselB0`           | Diesel fuel (0% bio additives)                                          |
 | `dieselB7`           | Diesel fuel (up to 7% bio additives)                                    |
 | `dieselB15`          | Diesel fuel (up to 15% bio additives)                                   |
 | `dieselB20`          | Diesel fuel (up to 20% bio additives)                                   |
 | `dieselBMix`         | Diesel fuel (unspecified amount of additives)                           |
-| `dieselGtl`          |                                                                         |
-| `dieselPremium`      |                                                                         |
+| `dieselGtl`          | GTL Diesel (synthetic)                                                  |
+| `dieselPremium`      | Premium Diesel                                                          |
 | `e50`                |                                                                         |
-| `e85`                |                                                                         |
-| `h2`                 |                                                                         |
+| `e85`                | Ethanol (85%)                                                           |
+| `h2`                 | Hydrogen                                                                |
 | `heatingOil`         | Heating oil (note: most likely not used to power vehicles!)             |
 | `lng`                | Liquefied natural gas                                                   |
 | `lpg`                | Liquefied petroleum gas (propane and butane)                            |
