@@ -2,9 +2,9 @@
 
 <img align="right" width="25%" src="../assets/connected-fueling-logo.svg">
 
-Copyright (c) 2019, 2020 PACE Telematics GmbH
+Copyright (c) 2019–2022 PACE Telematics GmbH
 
-**Table of contents**
+## Table of contents
 
 - [1 About This Document](#1-about-this-document)
   - [1.1 Not Part of this Document](#11-not-part-of-this-document)
@@ -12,8 +12,8 @@ Copyright (c) 2019, 2020 PACE Telematics GmbH
   - [2.1 Parties](#21-parties)
   - [2.2 Requirements](#22-requirements)
 - [3 Process Overview](#3-process-overview)
-  - [3.1 Post Pay Process](#31-post-pay-process)
-  - [3.2 Pre Auth Process](#32-pre-auth-process)
+  - [3.1 Post-Pay Process](#31-post-pay-process)
+  - [3.2 Pre-Auth Process](#32-pre-auth-process)
 - [4 Communication Protocol](#4-communication-protocol)
   - [4.1 Plain Text Protocol](#41-plain-text-protocol)
     - [4.1.1 TAG](#411-tag)
@@ -22,7 +22,7 @@ Copyright (c) 2019, 2020 PACE Telematics GmbH
     - [4.1.4 EBNF](#414-ebnf)
     - [4.1.5 Protocol Extensions](#415-protocol-extensions)
 
-# 1 About This Document
+## 1 About This Document
 
 This document describes the measures required to enable a gas station forecourt system to be part of Connected Fueling Platform. The whole process is also known as "pay-at-the-pump" and enables a customer to pay for fuel using a smartphone (or directly within the car using the integrated HMI systems) while staying on the forecourt without entering the gas station shop.
 
@@ -37,7 +37,7 @@ The above example describes the flow for a mobile phone, the flow for a car HMI 
 
 The Fueling Site Connect API is hereinafter referred to as "OpenFSC".
 
-## 1.1 Not part of this document
+### 1.1 Not Part of this Document
 
 The payment process is not directly part of this document, due to the fact, that payment is the responsibility of the OpenFSC server side. The server is signaling to the gas station, that the fueling was payed.
 
@@ -51,7 +51,7 @@ The documentation for the API and the interaction between the App and the Connec
 
 - [Connected Fueling API Documentation](https://developer.pace.cloud/docs/cloud/fueling)
 
-# 2 Architecture Overview
+## 2 Architecture Overview
 
 - The gas station (often also known as Site) uses either a POS (Point of Sale) or a dedicated hardware (Site Connect Box) that connects to the OpenFSC server in order to enable Mobile Payment.
 - In order to connect the POS or any dedicated hardware to an OpenFSC server, an internet connection in conjunction with simple but secure communication protocols is used.
@@ -59,7 +59,7 @@ The documentation for the API and the interaction between the App and the Connec
 
 ![assets/architecture-overview.png](assets/architecture-overview.png)
 
-## 2.1 Parties
+### 2.1 Parties
 
 Main parties in the Connected Fueling process are
 
@@ -74,7 +74,7 @@ Main parties in the Connected Fueling process are
 
   Accepting connections from many parties (Mobile apps, In-car HMI systems, ...), translates (proprietary) protocols and exchanges the station, pump, fueling and payment information.
 
-## 2.2 Requirements
+### 2.2 Requirements
 
 The following minimal requirements are assumed when implementing OpenFSC:
 
@@ -87,21 +87,21 @@ The following minimal requirements are assumed when implementing OpenFSC:
 - Access to the current fuel prices, including the product id, name, ...
 - Ability to inform OpenFSC server about price changes when they occur
 - Access to current, uncleared transactions on the pumps including
-  - a transaction id
+  - a transaction ID
   - the transaction state
-  - the product id
+  - the product ID
   - the fueled amount
-  - the price, price with vat, vat
+  - the price, price with VAT, VAT
 - Information about the currency used as well as current time
-- Authentication data, needed to connect to an OpenFSC Server.
+- Authentication data, needed to connect to an OpenFSC Server
 
-# 3 Process Overview
+## 3 Process Overview
 
-The Connected Fueling process can be divided into two main processes: the Post Pay and the Pre Auth process. The Post Pay process is very prominent in Germany and represents the payment after the fueling. The Pre Auth process is widely used outside of Germany or with 24/7 unmanned stations. Both processes can be implemented using the OpenFSC protocol. Both processes are described using the plain text protocol (secured using TLS1.2 or VPN) offered by OpenFSC.
+The Connected Fueling process can be divided into two main processes: the Post-Pay and the Pre-Auth process. The Post-Pay process is very prominent in Germany and represents the payment after the fueling. The Pre-Auth process is widely used outside of Germany or with 24/7 unmanned stations. Both processes can be implemented using the OpenFSC protocol. Both processes are described using the plain text protocol (secured using TLS1.2 or VPN) offered by OpenFSC.
 
 Both processes start by updating the current pumps and price information, in order to present current data to the user. The price information needs to be sent via OpenFSC when changed in order to show current prices to the users that haven't already reached the forecourt.
 
-## 3.1 Post Pay Process
+### 3.1 Post-Pay Process
 
 - The user then selects the current pump which is reflected in the protocol by once again retrieving the updated status. That is because the user can go back to the overview and select another pump, in case the pump was mistakenly chosen. Having current pump information is, therefore, the first step.
 - Using the pump status method with a ttl (time to live) for the update will ask the client to continuously send updates for the given pump for a given amount of time.
@@ -110,39 +110,39 @@ Both processes start by updating the current pumps and price information, in ord
 
 ![assets/post-pay-flow.png](assets/post-pay-process.png)
 
-## 3.2 Pre Auth Process
+### 3.2 Pre-Auth Process
 
-- The user has to pre-authorize the payment, the amount is explicitly chosen by the user OR implicitly set high enough, such that a full fueling could take place (tank size _ fuel type price _ 120%).
-- The status updates work in the same way as with a Post Pay fueling, the only difference is, that the process waits until the state **locked** is reached. The pre-authorized amount will be captured by the gas station by providing the fuelled amount and price.
+- The user has to pre-authorize the payment, the amount is explicitly chosen by the user OR implicitly set high enough, such that a full fueling could take place (tank size _fuel type price_ 120%).
+- The status updates work in the same way as with a Post-Pay fueling, the only difference is, that the process waits until the state **locked** is reached. The pre-authorized amount will be captured by the gas station by providing the fuelled amount and price.
 - The user will be presented with the bill and informed that the transaction is complete.
 
 ![assets/pre-auth-flow.png](assets/pre-auth-process.png)
 
-# 4 Communication Protocol
+## 4 Communication Protocol
 
 This section specifies the general communication protocol between a Site and the OpenFSC server.
 
-The protocol is independent of the particular transmission subsystem and requires only a reliable and ordered data channel (e.g. WSS or TCP stream). Furthermore, all specifications here should be portable to multiple formats like binary, JSON or XML. However, in this document we illustrate the protocol in a plain text encoding.
+The protocol is independent of the particular transmission subsystem and requires only a reliable and ordered data channel (e.g. WSS or TCP stream).
 
-Ususally, a single communication channel is distinct to a single client-server pair. You can use the [Connection Multiplexing](ext/connection-multiplexing.md) extension in your implementation if you would like to connect multiple Sites through a single client-server connection. 
+Ususally, a single communication channel is distinct to a single client-server pair. You can use the [Connection Multiplexing](ext/connection-multiplexing.md) extension in your implementation if you would like to connect multiple Sites through a single client-server connection.
 
 The Site has to initiate the connection to the OpenFSC server. In case the connection dropped the Site needs to reconnect immediately.
 
-## 4.1 Plain Text Protocol
+### 4.1 Plain Text Protocol
 
-The protocol consists of predefined messages. A message always starts with a so called `tag` followed by a `method`, multiple arguments `arg0` - `argN` as well as a special optional last argument `argV`. The end of a message is indicated by a <CRLF> (`\r\n`):
+The protocol consists of predefined messages. A message always starts with a so called `tag` followed by a `method`, multiple arguments `arg0` - `argN` as well as a special optional last argument `argV`. The end of a message is indicated by `<CRLF>` (`\r\n`):
 
 ```xml
 <tag> <method> <arg0> <arg1> ... <argN> <argV>\r\n
 ```
 
-All message fields except the termination sequence <CRLF> are separated by spaces and the default message encoding is `ASCII`. To change the encoding a special method called `CHARSET` can be used which is described in a later section.
+All message fields except the termination sequence `<CRLF>` are separated by spaces and the default message encoding is `ASCII`. To change the encoding a special method called `CHARSET` can be used which is described in a later section.
 
 To establish a connection, the client first establishes a data channel (e.g.: TCP) to the server and starts a handshaking process to establish the actual Site API connection. This initialization phase is a so-called "Not Authenticated State" and consists of a special sequence of messages to negotiate the communication contract between the server and the client. The first message from both sides always has to be a notification with a `CAPABILITY` message. If an error occurs on either side the corresponding party will disconnect and optionally send a `QUIT` notification with further information about the error. In case of a successful capability exchange, the client can change the protocol encoding by sending one of the available encoding messages specified further below. The initialization phase will be concluded with an authentication message like `PLAINAUTH`. If everything was successful, the connection is considered established and transitions into a so-called "Authenticated State".
 
 ![assets/site-api-connection-example.png](assets/site-api-connection-example.png)
 
-### 4.1.1 TAG
+#### 4.1.1 TAG
 
 The `<tag>` indicates the type of the message as well as the current context and needs to satisfy the format `"*" | letter { letter | digit }` (see EBNF for full specification). There are currently two supported message types:
 
@@ -150,7 +150,7 @@ The `<tag>` indicates the type of the message as well as the current context and
 
 In this case the tag specifies the message context, which means if one party sends a request message with the tag `S1` the receiving end will answer with the same tag `S1` in its response. The established context is valid until a timeout is triggered or the recipient answers with an `OK` or `ERR` response. The tag of a request must match the tag of its response.
 
-```
+```text
 S: S6 HEARTBEAT 2019-11-13T07:00:04Z
 C: S6 BEAT 2019-11-13T08:00:05+01:00
 C: S6 OK
@@ -160,7 +160,7 @@ C: S6 OK
 
 A notification indicates a message which expects no response. Besides the reliable transport requirement, this means there is no acknowledgement of any form that the sent message was processed correctly.
 
-```
+```text
 C: * PUMP 1 free
 C: * PUMP 2 free
 C: * PUMP 3 in-use
@@ -169,7 +169,7 @@ C: * PUMP 4 ready-to-pay
 
 A notification can also be a synchronous answer to a previously issued request/response:
 
-```
+```text
 S: S1 PUMPS
 C: * PUMP 1 free
 C: * PUMP 2 free
@@ -178,13 +178,13 @@ C: * PUMP 4 ready-to-pay
 C: S1 OK
 ```
 
-### 4.1.2 Methods and Arguments
+#### 4.1.2 Methods and Arguments
 
-A message represents an operation that should be performed by the receiving side. Each message consists of a method and a list of defined arguments. Each method has its own arguments and message type (Request/Response or Notification). The name of the method must follow the format `letter { letter | digit }` while all normal arguments (`arg0`- `argN`) can use all characters of the specified encoding except control characters and space (`"\x21"…"\x7E"`). The method and all arguments are separated by spaces. The last argument can be a so called "variadic" argument (`argV`) which supports a sequence of any character compatible with the negotiated protocol encoding besides <CRLF> (`"\x00"…"\xff" - "\r" - "\n"`). The last argument (`argN` or `argV`) as well as the whole message is terminated by <CRLF> (`\r\n`).
+A message represents an operation that should be performed by the receiving side. Each message consists of a method and a list of defined arguments. Each method has its own arguments and message type (Request/Response or Notification). The name of the method must follow the format `letter { letter | digit }` while all normal arguments (`arg0`- `argN`) can use all characters of the specified encoding except control characters and space (`"\x21"…"\x7E"`). The method and all arguments are separated by spaces. The last argument can be a so called "variadic" argument (`argV`) which supports a sequence of any character compatible with the negotiated protocol encoding besides `<CRLF>` (`"\x00"…"\xff" - "\r" - "\n"`). The last argument (`argN` or `argV`) as well as the whole message is terminated by `<CRLF>` (`\r\n`).
 
-#### Handshake/Not Authenticated State
+##### Handshake/Not Authenticated State
 
-##### `CAPABILITY`
+###### `CAPABILITY`
 
 Type: **Notification**
 
@@ -198,7 +198,7 @@ Arguments:
 
 Please note that the list of capabilities is of variable (not fixed) length.
 
-##### `CHARSET` (Encoding Method)
+###### `CHARSET` (Encoding Method)
 
 Type: **Request/Response**
 
@@ -214,7 +214,7 @@ Errors:
 
 - **404** Unknown encoding
 
-##### `PLAINAUTH` (Authentication Method)
+###### `PLAINAUTH` (Authentication Method)
 
 Type: **Request/Response**
 
@@ -231,9 +231,9 @@ Errors:
 
 - **401** SiteAccessKey and/or secret are not valid
 
-#### Authenticated State
+##### Authenticated State
 
-##### `CLEAR`
+###### `CLEAR`
 
 Type: **Request/Response**
 
@@ -241,14 +241,15 @@ Direction: **Server → Client**
 
 Mark a transaction as cleared from server side. This frees the occupied pump and deletes the corresponding transaction. If the operation was successful, OK will be returned. In case of an error the client returns an ERR message.
 
-In case the clear could not be acknowledged by the client side due to a network disconnect, the clear is half processed. 
-The transaction can now be in two states, `cleared` and `open`. In case the transaction is still `open` it will be reported by the usual `TRANSACTIONS` call, 
+In case the clear could not be acknowledged by the client side due to a network disconnect, the clear is half processed.
+The transaction can now be in two states, `cleared` and `open`. In case the transaction is still `open` it will be reported by the usual `TRANSACTIONS` call,
 the server can safely assume the `CLEAR` was never received and retry. In case the transaction was `cleared` the transaction is not reported by the `TRANSACTIONS` call. The server doesn't know if this was caused by the `CLEAR`,
 or a payment in the shop. To resolve the information issue, the server will retry to clear the transaction after the client reconnected.
 If the client reports **403** the payment was done externally and **not** cleared by the server, usually by paying in the shop. If the client reports **410**
 the initial `CLEAR` was processed by the client and the server can now assume that the payment was successfully made. Some clients may only store the transaction
 for a certain time period (e.g. 24h). If the connection is not established for that time period, the client may responds with **404** the transaction isn't known
 any longer, this will cause an expensive back office process and should be avoided if possible. Summary of the errors on retry and how they are understood:
+
 - **404** Initial clearing was too long ago, the client doesn't known about the transaction any longer → back office process
 - **403** The payment was done otherwise → the payment transaction will be canceled
 - **410** The transaction was accepted → transaction successful
@@ -268,7 +269,7 @@ Errors:
 - **403** Payment method not permitted
 - **410** SiteTransactionID not open any longer and FSCTransactionID was the same
 
-##### `HEARTBEAT`
+###### `HEARTBEAT`
 
 Type: **Request/Response**
 
@@ -284,7 +285,7 @@ Errors:
 
 - **422** Timestamp invalid
 
-##### `LOCKPUMP`
+###### `LOCKPUMP`
 
 Type: **Request/Response**
 
@@ -302,7 +303,7 @@ Errors:
 - **404** Pump unknown
 - **423** Already locked
 
-##### `PRICE`
+###### `PRICE`
 
 Type: **Notification**
 
@@ -318,7 +319,7 @@ Arguments:
 - **PricePerUnit** (arg3, decimal): end user price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339)
 - **Description** (argV): human readable name/description of the product. (e.g.: Super Plus)
 
-##### `PRICES`
+###### `PRICES`
 
 Type: **Request/Response**
 
@@ -328,7 +329,7 @@ Get the current prices for all available products in the form of price per litre
 
 Arguments: **None**
 
-##### `PUMP`
+###### `PUMP`
 
 Type: **Notification**
 
@@ -341,7 +342,7 @@ Arguments:
 - **Pump** (arg0, number): identifier of the pump. Lowest possible value: 1.
 - **Status** (arg1, string)**:** status of the current pump. Supported values: **free**, **in-use, in-transaction**, **ready-to-pay, locked** or **out-of-order**
 
-##### `PUMPS`
+###### `PUMPS`
 
 Type: **Request/Response**
 
@@ -351,7 +352,7 @@ Get the statuses of all pumps at the site. The client needs to make sure that al
 
 Arguments: **None**
 
-##### `PUMPSTATUS`
+###### `PUMPSTATUS`
 
 Type: **Request/Response**
 
@@ -369,7 +370,7 @@ Errors:
 - **404** Pump unknown
 - **416** UpdateTTL is too large or too low (valid range 30 - 300)
 
-##### `TRANSACTION`
+###### `TRANSACTION`
 
 Type: **Notification**
 
@@ -380,7 +381,7 @@ Information about a specific transaction of a pump, open or deferred. Should be 
 Arguments:
 
 - **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
-- **SiteTransactionID** (arg1, string): ID of this transaction (defined by the client, site) in case of the Post Pay Process. In case of the Pre Pay Process the SiteTransactionID is the **FSCTransactionID** (provided on `UNLOCKPUMP`).
+- **SiteTransactionID** (arg1, string): ID of this transaction (defined by the client, site) in case of the Post-Pay Process. In case of the Pre Pay Process the SiteTransactionID is the **FSCTransactionID** (provided on `UNLOCKPUMP`).
 - **Status** (arg2, string): the current status of the transaction. Must be either **open** or **deferred**. A transaction is **open** if the payment has not yet been settled and the pump is **ready-to-pay** or **locked**. A transaction is **deferred** if it was previously **open** but the pump was released again by the site operator (set to **free**). This could be the case if a customer was not able to pay his fueling and the site operator needs to take further actions. To not block the pump for other customers, the site operator releases it again and the transaction previously **open** for said pump will be marked as **deferred.**
 - **ProductID** (arg3, string): identifier for the used product.
 - **Currency** (arg4, string): currency used by the subsequent **PriceWithVAT, PriceWithoutVAT** and **VATAmount** argument. Supported values, see [Supported Currencies](#416-supported-currencies), for example **EUR**.
@@ -392,7 +393,7 @@ Arguments:
 - **Volume** (arg10, decimal): amount of product used in the specified **Unit** (arg9). (e.g. for LTR: 54.40)
 - **PricePerUnit** (arg11, decimal): end user price per unit including VAT in the specified **Unit** (arg9) and the specified **Currency** (arg4). (e.g. for EUR/LTR: 1.339)
 
-##### `TRANSACTIONS`
+###### `TRANSACTIONS`
 
 Type: **Request/Response**
 
@@ -410,7 +411,7 @@ Errors:
 - **404** Pump unknown
 - **416** UpdateTTL is too large or too low (valid range 30 - 300)
 
-##### `UNLOCKPUMP`
+###### `UNLOCKPUMP`
 
 Type: **Request/Response**
 
@@ -440,7 +441,7 @@ Errors:
 - **404** Pump or ProductID unknown
 - **422** Currency unknown
 
-##### `LOCKEDPUMP`
+###### `LOCKEDPUMP`
 
 Type: **Request/Response**
 
@@ -462,9 +463,9 @@ Errors:
 - **403** Transaction is in invalid state and can't be canceled
 - **400** Invalid reason
 
-#### General (Always Valid/Special Methods)
+##### General (Always Valid/Special Methods)
 
-##### `BEAT`
+###### `BEAT`
 
 Direction: **Client → Server**
 
@@ -472,7 +473,7 @@ Informational response for a HEARTBEAT request. This method is purely informatio
 
 Arguments: **Timestamp** (arg0, string): time at which this message was sent in the format of `RFC-3339`.
 
-##### `ERR` (Special)
+###### `ERR` (Special)
 
 Direction: **Server → Client, Client → Server**
 
@@ -488,7 +489,7 @@ Arguments:
   - **500** Internal server error
 - **Message** (argV): human readable error message
 
-##### `OK` (Special)
+###### `OK` (Special)
 
 Direction: **Server → Client, Client → Server**
 
@@ -496,7 +497,7 @@ Concludes a Request/Response message successfully and terminates the correspondi
 
 Arguments: **None**
 
-##### `QUIT`
+###### `QUIT`
 
 Type: **Notification**
 
@@ -508,11 +509,11 @@ Arguments:
 
 - **Message** (argV): Reason for the connection termination.
 
-### 4.1.3 Example Plaintext Session
+#### 4.1.3 Example Plaintext Session
 
-Hereafter one can find the mobile payment process for post payment as an example session.
+Hereafter one can find the mobile payment process for Post-Payment as an example session.
 
-```gherkin
+```text
 C: * CAPABILITY CLEAR HEARTBEAT LOCKPUMP PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS UNLOCKPUMP
 S: * CAPABILITY BEAT CHARSET PLAINAUTH PRICE PUMP TRANSACTION LOCKEDPUMP QUIT
 C: C0 CHARSET ISO-8859-1
@@ -549,9 +550,9 @@ C: S6 OK
 C: * QUIT bye bye
 ```
 
-### 4.1.4 EBNF
+#### 4.1.4 EBNF
 
-```bash
+```text
 letter = "a"…"z" | "A"…"Z" .
 digit = "0"…"9" .
 digits = digit { digit } .
@@ -574,150 +575,150 @@ currency = "EUR" .
 unit = "LTR" .
 
 pump_status = "free" |
-	"in-use" |
-	"ready-to-pay" |
-	"locked" |
-	"out-of-order" .
+    "in-use" |
+    "ready-to-pay" |
+    "locked" |
+    "out-of-order" .
 
 transaction_status = "open" |
-	"deferred" .
+    "deferred" .
 
 method = "BEAT" |
-   "CHARSET" |
-   "CLEAR" |
-   "HEARTBEAT" |
-   "LOCKPUMP" |
-   "LOCKEDPUMP" |
-   "PLAINAUTH" |
-   "PRICE" |
-   "PRICES" |
-   "PUMP" |
-   "PUMPS" |
-   "PUMPSTATUS" |
-   "TRANSACTION" |
-   "TRANSACTIONS" |
-   "QUIT" |
-   "UNLOCKPUMP" .
+    "CHARSET" |
+    "CLEAR" |
+    "HEARTBEAT" |
+    "LOCKPUMP" |
+    "LOCKEDPUMP" |
+    "PLAINAUTH" |
+    "PRICE" |
+    "PRICES" |
+    "PUMP" |
+    "PUMPS" |
+    "PUMPSTATUS" |
+    "TRANSACTION" |
+    "TRANSACTIONS" |
+    "QUIT" |
+    "UNLOCKPUMP" .
 
 encoding = "WINDOWS-1252" |
-	"ISO-8859-1" |
-	"UTF-8" .
+    "ISO-8859-1" |
+    "UTF-8" .
 
 capabilty_method = "CAPABILITY"
-	{ space methods } .
+    { space methods } .
 
 charset_method = "CHARSET"
-	space encoding .
+    space encoding .
 
 plainauth_method = "PLAINAUTH"
-	space uuid
-	space string .
+    space uuid
+    space string .
 
 clear_method = "CLEAR"
-	space number
-	space string
-	space uuid
-	space string .
+    space number
+    space string
+    space uuid
+    space string .
 
 heartbeat_method = "HEARTBEAT"
-	space string .
+    space string .
 
 lockpump_method = "LOCKPUMP"
-	space number
-	space string .
+    space number
+    space string .
 
 price_method = "PRICE"
-	space string
-	space unit
-	space currency
-	space decimal
-	space argv .
+    space string
+    space unit
+    space currency
+    space decimal
+    space argv .
 
 prices_method = "PRICES" .
 
 pump_method = "PUMP"
-	space number
-	space pump_status .
+    space number
+    space pump_status .
 
 pumps_method = "PUMPS" .
 
 pumpstatus_method = "PUMPSTATUS"
-	space number
-	[ space number ] .
+    space number
+    [ space number ] .
 
 transaction_method = "TRANSACTION"
-	space number
-	space string
-	space transaction_status
-	space string
-	space currency
-	space decimal
-	space decimal
-	space decimal
-	space decimal
-	space unit
-	space decimal
-	space decimal .
+    space number
+    space string
+    space transaction_status
+    space string
+    space currency
+    space decimal
+    space decimal
+    space decimal
+    space decimal
+    space unit
+    space decimal
+    space decimal .
 
 transactions_method = "TRANSACTIONS"
-	[ space number ] .
+    [ space number ] .
 
 unlockpump_method = "UNLOCKPUMP"
-	space number
-	space currency
-	space decimal
-	space uuid
-	space string
-	[ space string ]
-	[ space string ]
-	[ space string ]
-	[ space string ]
-	[ space string ]
-	[ space string ]
-	[ space string ]
-	[ space string ] .
+    space number
+    space currency
+    space decimal
+    space uuid
+    space string
+    [ space string ]
+    [ space string ]
+    [ space string ]
+    [ space string ]
+    [ space string ]
+    [ space string ]
+    [ space string ]
+    [ space string ] .
 
 lockedpump_method = "LOCKEDPUMP"
-	space number
-	space uuid
-	space string .
+    space number
+    space uuid
+    space string .
 
 beat_method = "BEAT"
-	space string .
+    space string .
 
 err_method = "ERR"
-	space number
-	space argv .
+    space number
+    space argv .
 
 ok_method = "OK" .
 
 quit_method = "QUIT"
-	space argv .
+    space argv .
 
 any_method = beat_method |
-	capabilty_method |
-	charset_method |
-	clear_method |
-	err_method |
-	heartbeat_method |
-	lockpump_method |
-	lockedpump_method |
-	ok_method |
-	plainauth_method |
-	price_method |
-	prices_method |
-	pump_method |
-	pumps_method |
-	pumpstatus_method |
-	quit_method |
-	transaction_method |
-	transactions_method |
-	unlockpump_method .
+    capabilty_method |
+    charset_method |
+    clear_method |
+    err_method |
+    heartbeat_method |
+    lockpump_method |
+    lockedpump_method |
+    ok_method |
+    plainauth_method |
+    price_method |
+    prices_method |
+    pump_method |
+    pumps_method |
+    pumpstatus_method |
+    quit_method |
+    transaction_method |
+    transactions_method |
+    unlockpump_method .
 
 message = tag space ( any_method ) "\r\n" .
 ```
 
-### 4.1.5 Protocol Extensions
+#### 4.1.5 Protocol Extensions
 
 This section introduces multiple extensions that can be used. All extensions are optional and the communicating parties agree about used extensions with the `CAPABILITY` command. In other words, if a capability is implemented both sides need to be announcing the capability via the `CAPABILITY` message. The server and the client announce the respective commands they are handling.
 
@@ -729,5 +730,6 @@ This section introduces multiple extensions that can be used. All extensions are
 - [Receipt Information](ext/receipt-information.md)
 - [Pushing Data](ext/pushing.md)
 
-### 4.1.6 Supported Currencies
-All currencies of ISO 4217 are supported, see https://en.wikipedia.org/wiki/ISO_4217.
+#### 4.1.6 Supported Currencies
+
+All currencies of ISO 4217 are supported, see <https://en.wikipedia.org/wiki/ISO_4217>.
