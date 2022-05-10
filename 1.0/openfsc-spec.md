@@ -725,8 +725,7 @@ This section introduces multiple extensions that can be used. All extensions are
 - [Connection Multiplexing](ext/connection-multiplexing.md)
 - [Product Mapping](ext/product-mapping.md)
 - [High Availability](ext/ha.md)
-- [PAN](ext/pan.md)
-- [Transaction Information](ext/transaction-info.md)
+- [Transaction Information](ext/transaction-info.md) (replacement of the [PAN](ext/pan.md) extension)
 - [Receipt Information](ext/receipt-information.md)
 - [Pushing Data](ext/pushing.md)
 
