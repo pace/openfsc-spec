@@ -275,7 +275,11 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Check if the client is still available and try to calculate the time drift between server and client. This method is issued occasionally to detect the time drift and if there has been no communication between server and client for some time. The client answers with a tagged BEAT message before sending an OK. If an error occurred the client returns an ERR message.
+Check if the client is still available and try to calculate the time drift between server and client. This method is issued regularly to detect the time drift and to check if the communication channel between server and client is up and running.
+	
+The client answers with a tagged `BEAT` message before sending an `OK`. If an error occurred the client returns an `ERR` message.
+	
+The `HEARTBEAT` message must be answered by the client within 20 seconds, otherwise the communication channel is considered unstable. Multiple failures in answering in time will result in the communication channel being forcefully closed (`QUIT`).
 
 Arguments:
 
