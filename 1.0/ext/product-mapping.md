@@ -89,7 +89,7 @@ Full list of all product types that can be used in OpenFSC
 | `dieselB20`          | Diesel fuel (up to 20% bio additives)                                     |
 | `dieselBMix`         | Diesel fuel (unspecified amount of additives)                             |
 | `dieselGtl`          | GTL/XTL Diesel (synthetic, gas-to-liquid or x-to-liquid)                  |
-| `dieselHvo100`       | HVO Diesel (100 %)                                                        |
+| `dieselHvo100`       | HVO Diesel (100%)                                                         |
 | `dieselPremium`      | Premium Diesel                                                            |
 | `e85`                | Ethanol (85%)                                                             |
 | `h2`                 | Hydrogen                                                                  |
