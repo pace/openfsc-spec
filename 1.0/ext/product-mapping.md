@@ -80,6 +80,7 @@ Full list of all product types that can be used in OpenFSC
 | Product Type         | Description                                                               |
 | -------------------- | ------------------------------------------------------------------------- |
 | `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                           |
+| `careDiesel`         | C.A.R.E. Diesel (synthetic)                                               |
 | `cng`                | Compressed natural gas                                                    |
 | `diesel`             | Diesel fuel                                                               |
 | `dieselB0`           | Diesel fuel (0% bio additives)                                            |
@@ -87,6 +88,8 @@ Full list of all product types that can be used in OpenFSC
 | `dieselB15`          | Diesel fuel (up to 15% bio additives)                                     |
 | `dieselB20`          | Diesel fuel (up to 20% bio additives)                                     |
 | `dieselBMix`         | Diesel fuel (unspecified amount of additives)                             |
+| `dieselGtl`          | GTL/XTL Diesel (synthetic, gas-to-liquid or x-to-liquid)                  |
+| `dieselHvo100`       | HVO Diesel (100 %)                                                        |
 | `dieselPremium`      | Premium Diesel                                                            |
 | `e85`                | Ethanol (85%)                                                             |
 | `h2`                 | Hydrogen                                                                  |
@@ -107,7 +110,5 @@ Full list of all product types that can be used in OpenFSC
 
 Legacy product types (not used anymore):
 
-- `careDiesel` => use `syntheticDiesel`
-- `dieselGtl` => use `syntheticDiesel`
 - `e50` => removed
 - `methanol` => removed
