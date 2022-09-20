@@ -96,6 +96,7 @@ Full list of all product types that can be used in OpenFSC
 | `heatingOil`         | Heating oil (note: most likely not used to power vehicles!)               |
 | `lng`                | Liquefied natural gas                                                     |
 | `lpg`                | Liquefied petroleum gas (propane and butane)                              |
+| `redDiesel`          | Red/colored Diesel (used in agricultural vehicles or generators)          |
 | `ron95e5`            | RON 95 grade gasoline (up to 5% bio additives)                            |
 | `ron95e10`           | RON 95 grade gasoline (up to 10% bio additives)                           |
 | `ron98`              | RON 98 grade gasoline                                                     |
