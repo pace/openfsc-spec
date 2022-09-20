@@ -101,14 +101,14 @@ Full list of all product types that can be used in OpenFSC
 | `ron98`              | RON 98 grade gasoline                                                     |
 | `ron98e5`            | RON 98 grade gasoline (up to 5% bio additives)                            |
 | `ron100`             | RON 100 grade gasoline                                                    |
-| `syntheticDiesel`    | Synthetic Diesel (examples: EN 15940 fuel, CARE Diesel, HVO Diesel, etc.) |
+| `syntheticDiesel`    | Other types of synthetic Diesel (EN 15940 fuel)                           |
 | `truckAdBlue`        | AdBlue Diesel exhaust fluid (DEF, also: AUS 32) for commercial vehicles   |
 | `truckDiesel`        | Diesel for commercial vehicles (including agricultural diesel fuel)       |
 | `truckDieselPremium` | Premium Diesel for commercial vehicles                                    |
 | `truckLpg`           | Liquefied petroleum gas for commercial vehicles                           |
-| `vegetableOil`       | Vegetable oil (note: most likely not used to power vehicles!)             |
 
 Legacy product types (not used anymore):
 
 - `e50` => removed
 - `methanol` => removed
+- `vegetableOil` => removed
