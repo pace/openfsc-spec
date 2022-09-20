@@ -80,7 +80,7 @@ Full list of all product types that can be used in OpenFSC
 | Product Type         | Description                                                               |
 | -------------------- | ------------------------------------------------------------------------- |
 | `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                           |
-| `careDiesel`         | C.A.R.E. Diesel (synthetic)                                               |
+| `careDiesel`         | => deprecated, use `dieselCare` instead                                   |
 | `cng`                | Compressed natural gas                                                    |
 | `diesel`             | Diesel fuel                                                               |
 | `dieselB0`           | Diesel fuel (0% bio additives)                                            |
@@ -88,27 +88,34 @@ Full list of all product types that can be used in OpenFSC
 | `dieselB15`          | Diesel fuel (up to 15% bio additives)                                     |
 | `dieselB20`          | Diesel fuel (up to 20% bio additives)                                     |
 | `dieselBMix`         | Diesel fuel (unspecified amount of additives)                             |
+| `dieselCare`         | C.A.R.E. Diesel (synthetic)                                               |
 | `dieselGtl`          | GTL/XTL Diesel (synthetic, gas-to-liquid or x-to-liquid)                  |
 | `dieselHvo100`       | HVO Diesel (100%)                                                         |
 | `dieselPremium`      | Premium Diesel                                                            |
+| `dieselRed`          | Red/colored Diesel (used in agricultural vehicles or generators)          |
+| `dieselSynthetic`    | Other types of synthetic Diesel (EN 15940 fuel)                           |
 | `e85`                | Ethanol (85%)                                                             |
 | `h2`                 | Hydrogen                                                                  |
 | `heatingOil`         | Heating oil (note: most likely not used to power vehicles!)               |
 | `lng`                | Liquefied natural gas                                                     |
 | `lpg`                | Liquefied petroleum gas (propane and butane)                              |
-| `redDiesel`          | Red/colored Diesel (used in agricultural vehicles or generators)          |
 | `ron95e5`            | RON 95 grade gasoline (up to 5% bio additives)                            |
 | `ron95e10`           | RON 95 grade gasoline (up to 10% bio additives)                           |
 | `ron98`              | RON 98 grade gasoline                                                     |
 | `ron98e5`            | RON 98 grade gasoline (up to 5% bio additives)                            |
 | `ron100`             | RON 100 grade gasoline                                                    |
-| `syntheticDiesel`    | Other types of synthetic Diesel (EN 15940 fuel)                           |
+| `syntheticDiesel`    | => deprecated, use `dieselSynthetic` instead                              |
 | `truckAdBlue`        | AdBlue Diesel exhaust fluid (DEF, also: AUS 32) for commercial vehicles   |
 | `truckDiesel`        | Diesel for commercial vehicles (including agricultural diesel fuel)       |
 | `truckDieselPremium` | Premium Diesel for commercial vehicles                                    |
 | `truckLpg`           | Liquefied petroleum gas for commercial vehicles                           |
 
-Legacy product types (not used anymore):
+Deprecated fuel types (do not use for new implementations), will be removed in next version:
+
+- `careDiesel`
+- `syntheticDiesel`
+
+Legacy product types (already removed from spec, do not use anymore):
 
 - `e50` => removed
 - `methanol` => removed
