@@ -45,11 +45,12 @@ On-boarding of the gas station requires some meta data about the station. That i
 
 However, there's a document outlining expected data and ways to integrate:
 
-- [PACE POI Service: Gas Station Data](https://www.notion.so/PACE-POI-Service-Gas-Station-Data-4146aeec34fa462c99d40c88286a3b2a)
+- [PACE POI Service: Gas Station Data](https://docs.pace.cloud/en/services/poi-service/gas-station-data)
 
 The documentation for the API and the interaction between the App and the Connected Fueling API can be found here:
 
-- [Connected Fueling API Documentation](https://developer.pace.cloud/docs/cloud/fueling)
+- [PACE Developer Documentation](https://docs.pace.cloud/)
+- [Connected Fueling API Documentation](https://developer.pace.cloud/overview)
 
 # 2 Architecture Overview
 
@@ -122,9 +123,9 @@ Both processes start by updating the current pumps and price information, in ord
 
 This section specifies the general communication protocol between a Site and the OpenFSC server.
 
-The protocol is independent of the particular transmission subsystem and requires only a reliable and ordered data channel (e.g. WSS or TCP stream). Furthermore, all specifications here should be portable to multiple formats like binary, json or xml. However, in this document we illustrate the protocol in a plain text encoding.
+The protocol is independent of the particular transmission subsystem and requires only a reliable and ordered data channel (e.g. WSS or TCP stream). Furthermore, all specifications here should be portable to multiple formats like binary, JSON or XML. However, in this document we illustrate the protocol in a plain text encoding.
 
-A single communication channel is always distinct to a single client server pair. This means each connection is directly related to a real Site. Currently there are no plans to enable multiple Site connections over one communication path.
+Ususally, a single communication channel is distinct to a single client-server pair. You can use the [Connection Multiplexing](ext/connection-multiplexing.md) extension in your implementation if you would like to connect multiple Sites through a single client-server connection. 
 
 The Site has to initiate the connection to the OpenFSC server. In case the connection dropped the Site needs to reconnect immediately.
 
@@ -190,11 +191,13 @@ Type: **Notification**
 
 Direction: **Server → Client, Client → Server**
 
-Always the first message issued by both parties. Information about the available methods of the sending party. If an error occurs while receiving/processing the capabilities of the other party, the recipient should terminate the connection. Optionally they can send a **QUIT** message to provide extra information before triggering the disconnect.
+This is the first message always issued by both parties respectively, containing information about the available methods of the sending party. If an error occurs while receiving/processing the capabilities of the other party, the recipient should terminate the connection. Optionally he can send a **QUIT** message to provide extra information before triggering the disconnect.
 
 Arguments:
 
 - **Whitespace separated list of methods supported by the sending party**
+
+Please note that the list of capabilities is of variable (not fixed) length.
 
 ##### `CHARSET` (Encoding Method)
 
@@ -272,7 +275,11 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Check if the client is still available and try to calculate the time drift between server and client. This method is issued occasionally to detect the time drift and if there has been no communication between server and client for some time. The client answers with a tagged BEAT message before sending an OK. If an error occurred the client returns an ERR message.
+Check if the client is still available and try to calculate the time drift between server and client. This method is issued regularly to detect the time drift and to check if the communication channel between server and client is up and running.
+	
+The client answers with a tagged `BEAT` message before sending an `OK`. If an error occurred the client returns an `ERR` message.
+	
+The `HEARTBEAT` message must be answered by the client within 20 seconds, otherwise the communication channel is considered unstable. Multiple failures in answering in time will result in the communication channel being forcefully closed (`QUIT`).
 
 Arguments:
 
@@ -717,12 +724,12 @@ message = tag space ( any_method ) "\r\n" .
 
 ### 4.1.5 Protocol Extensions
 
-This section introduces multiple extensions that can be used. All extensions are optional and the communicating parties agree about used extensions with the `CAPABILITY` command.
+This section introduces multiple extensions that can be used. All extensions are optional and the communicating parties agree about used extensions with the `CAPABILITY` command. In other words, if a capability is implemented both sides need to be announcing the capability via the `CAPABILITY` message. The server and the client announce the respective commands they are handling.
 
 - [Connection Multiplexing](ext/connection-multiplexing.md)
 - [Product Mapping](ext/product-mapping.md)
 - [High Availability](ext/ha.md)
-- [PAN](ext/pan.md)
+- [Transaction Information](ext/transaction-info.md) (replacement of the [PAN](ext/pan.md) extension)
 - [Receipt Information](ext/receipt-information.md)
 - [Pushing Data](ext/pushing.md)
 
