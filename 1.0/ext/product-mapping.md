@@ -80,7 +80,7 @@ Full list of all product types that can be used in OpenFSC
 | Product Type         | Description                                                               |
 | -------------------- | ------------------------------------------------------------------------- |
 | `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                           |
-| `careDiesel`         | => deprecated, use `dieselCare` instead                                   |
+| `careDiesel` *       | => deprecated, use `dieselCare` instead                                   |
 | `cng`                | Compressed natural gas                                                    |
 | `diesel`             | Diesel fuel                                                               |
 | `dieselB0`           | Diesel fuel (0% bio additives)                                            |
@@ -104,18 +104,18 @@ Full list of all product types that can be used in OpenFSC
 | `ron98`              | RON 98 grade gasoline                                                     |
 | `ron98e5`            | RON 98 grade gasoline (up to 5% bio additives)                            |
 | `ron100`             | RON 100 grade gasoline                                                    |
-| `syntheticDiesel`    | => deprecated, use `dieselSynthetic` instead                              |
+| `syntheticDiesel` *  | => deprecated, use `dieselSynthetic` instead                              |
 | `truckAdBlue`        | AdBlue Diesel exhaust fluid (DEF, also: AUS 32) for commercial vehicles   |
 | `truckDiesel`        | Diesel for commercial vehicles (including agricultural diesel fuel)       |
 | `truckDieselPremium` | Premium Diesel for commercial vehicles                                    |
 | `truckLpg`           | Liquefied petroleum gas for commercial vehicles                           |
 
-Deprecated fuel types (do not use for new implementations), will be removed in next version:
+Deprecated fuel types are marked with `*` in the list above. Do not use them for new implementations, they will be removed in next version:
 
 - `careDiesel`
 - `syntheticDiesel`
 
-Legacy product types (already removed from spec, do not use anymore):
+Legacy product types which are already removed from spec, and cannot be used anymore:
 
 - `e50` => removed
 - `methanol` => removed
