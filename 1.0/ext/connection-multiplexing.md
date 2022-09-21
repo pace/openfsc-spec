@@ -46,7 +46,7 @@ Type: **Request/Response**
 
 Direction: **Client → Server**
 
-Lists all currently open sessions on the current connection. This method can only be called on non session connections (no session prefix). The server needs to make sure that all sessions have been transmitted with SESSION notifications before he can send an OK to conclude the SESSIONS request. In case of an error the server returns an ERR message.
+Lists all currently open sessions on the current connection. This method can only be called on non session connections (no session prefix). The server needs to make sure that all sessions have been transmitted with SESSION notifications before they can send an OK to conclude the SESSIONS request. In case of an error the server returns an ERR message.
 
 Arguments: **None**
 

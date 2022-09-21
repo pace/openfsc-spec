@@ -107,7 +107,7 @@ Both processes start by updating the current pumps and price information, in ord
 - The user then selects the current pump which is reflected in the protocol by once again retrieving the updated status. That is because the user can go back to the overview and select another pump, in case the pump was mistakenly chosen. Having current pump information is, therefore, the first step.
 - Using the pump status method with a ttl (time to live) for the update will ask the client to continuously send updates for the given pump for a given amount of time.
 - If the pump status reaches the **ready-to-pay** state, open transactions will be requested using OpenFSC. The information will be used to show a nicely formatted bill to the customer.
-- The customer selects the payment method and pays using a payment method he already registered with his digital wallet. Please note: The registration of payment methods is not covered by this document.
+- The customer selects the payment method and pays using a payment method they already registered with his digital wallet. Please note: The registration of payment methods is not covered by this document.
 
 ![assets/post-pay-flow.png](assets/post-pay-process.png)
 
@@ -191,7 +191,7 @@ Type: **Notification**
 
 Direction: **Server → Client, Client → Server**
 
-This is the first message always issued by both parties respectively, containing information about the available methods of the sending party. If an error occurs while receiving/processing the capabilities of the other party, the recipient should terminate the connection. Optionally he can send a **QUIT** message to provide extra information before triggering the disconnect.
+This is the first message always issued by both parties respectively, containing information about the available methods of the sending party. If an error occurs while receiving/processing the capabilities of the other party, the recipient should terminate the connection. Optionally they can send a **QUIT** message to provide extra information before triggering the disconnect.
 
 Arguments:
 
@@ -329,7 +329,7 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Get the current prices for all available products in the form of price per litre. The client needs to make sure that all prices have been transmitted with PRICE notifications before he can send an OK to conclude the PRICES request. In case of an error the client returns an ERR message.
+Get the current prices for all available products in the form of price per litre. The client needs to make sure that all prices have been transmitted with PRICE notifications before they can send an OK to conclude the PRICES request. In case of an error the client returns an ERR message.
 
 Arguments: **None**
 
@@ -352,7 +352,7 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Get the statuses of all pumps at the site. The client needs to make sure that all pump states have been transmitted with PUMP notifications before he can send an OK to conclude the PUMPS request. In case of an error the client returns an ERR message.
+Get the statuses of all pumps at the site. The client needs to make sure that all pump states have been transmitted with PUMP notifications before they can send an OK to conclude the PUMPS request. In case of an error the client returns an ERR message.
 
 Arguments: **None**
 
@@ -362,7 +362,7 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Get the status of a specific pump. The client needs to make sure that the requested pump state has been transmitted with a PUMP notification before he can send an OK to conclude the PUMPSTATUS request. In case of an error the client returns an ERR message.
+Get the status of a specific pump. The client needs to make sure that the requested pump state has been transmitted with a PUMP notification before they can send an OK to conclude the PUMPSTATUS request. In case of an error the client returns an ERR message.
 
 Arguments:
 
@@ -403,7 +403,7 @@ Type: **Request/Response**
 
 Direction: **Server → Client**
 
-Get all open or deferred transactions of the site or a specified pump (optional). The client needs to make sure that all transactions have been transmitted with TRANSACTION notifications before he can send an OK to conclude the TRANSACTIONS request. In case of an error the client returns an ERR message. The transactions may be requested after the successful connection of a client with session mode active in order to clear open transactions.
+Get all open or deferred transactions of the site or a specified pump (optional). The client needs to make sure that all transactions have been transmitted with TRANSACTION notifications before they can send an OK to conclude the TRANSACTIONS request. In case of an error the client returns an ERR message. The transactions may be requested after the successful connection of a client with session mode active in order to clear open transactions.
 
 Arguments:
 
@@ -507,7 +507,7 @@ Type: **Notification**
 
 Direction: **Server → Client, Client → Server**
 
-Signals the upcoming disconnect of the sending party. This method is used to send information before terminating the connection, however the client must not send a QUIT before disconnecting, he can also just close the connection. After receiving a QUIT method, the server will drop the corresponding connection. If the protocol extension "4.1.5.1 Connection Multiplexing" is used, the client can use the QUIT notification to close a session. If the initial session of a multiplexed connection (no `sessionID`) is closed with QUIT, all sessions depending on it will be dropped without further notice.
+Signals the upcoming disconnect of the sending party. This method is used to send information before terminating the connection, however the client must not send a QUIT before disconnecting, they can also just close the connection. After receiving a QUIT method, the server will drop the corresponding connection. If the protocol extension "4.1.5.1 Connection Multiplexing" is used, the client can use the QUIT notification to close a session. If the initial session of a multiplexed connection (no `sessionID`) is closed with QUIT, all sessions depending on it will be dropped without further notice.
 
 Arguments:
 
