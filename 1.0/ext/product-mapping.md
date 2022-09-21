@@ -80,7 +80,7 @@ Full list of all product types that can be used in OpenFSC
 | Product Type         | Description                                                               |
 | -------------------- | ------------------------------------------------------------------------- |
 | `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                           |
-| `careDiesel` *       | => deprecated, use `dieselCare` instead                                   |
+| `careDiesel` *       | => deprecated, use `dieselHvo` instead                                    |
 | `cng`                | Compressed natural gas                                                    |
 | `diesel`             | Diesel fuel                                                               |
 | `dieselB0`           | Diesel fuel (0% bio additives)                                            |
@@ -88,9 +88,8 @@ Full list of all product types that can be used in OpenFSC
 | `dieselB15`          | Diesel fuel (up to 15% bio additives)                                     |
 | `dieselB20`          | Diesel fuel (up to 20% bio additives)                                     |
 | `dieselBMix`         | Diesel fuel (unspecified amount of additives)                             |
-| `dieselCare`         | C.A.R.E. Diesel (synthetic)                                               |
 | `dieselGtl`          | GTL/XTL Diesel (synthetic, gas-to-liquid or x-to-liquid)                  |
-| `dieselHvo100`       | HVO Diesel (100%)                                                         |
+| `dieselHvo`          | HVO or CARE Diesel                                                        |
 | `dieselPremium`      | Premium Diesel                                                            |
 | `dieselRed`          | Red/colored Diesel (used in agricultural vehicles or generators)          |
 | `dieselSynthetic`    | Other types of synthetic Diesel (EN 15940 fuel)                           |
@@ -110,7 +109,7 @@ Full list of all product types that can be used in OpenFSC
 | `truckDieselPremium` | Premium Diesel for commercial vehicles                                    |
 | `truckLpg`           | Liquefied petroleum gas for commercial vehicles                           |
 
-Deprecated fuel types are marked with `*` in the list above. Do not use them for new implementations, they will be removed in next version:
+Deprecated fuel types are marked with `*` in the list above. Do not use them for new implementations, they will be removed in an upcoming version:
 
 - `careDiesel`
 - `syntheticDiesel`
