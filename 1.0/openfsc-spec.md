@@ -324,6 +324,8 @@ Arguments:
 - **PricePerUnit** (arg3, decimal): end user price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339)
 - **Description** (argV): human readable name/description of the product. (e.g.: Super Plus)
 
+Please consider implementing the [product mapping extension](ext/product-mapping.md) for your client to announce products with their respective type prior to transferring price information.
+
 ###### `PRICES`
 
 Type: **Request/Response**
