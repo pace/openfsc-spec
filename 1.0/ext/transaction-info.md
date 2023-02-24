@@ -20,9 +20,9 @@ Defined key-value pairs:
 
 |Key|Type|Description|
 |-|-|-|
-|`PAN`|string|PAN is the 19 to 21 digits primary account number|
+|`PAN`|string|PAN is the 19 to 21 digits primary account number of the card used for this transaction|
 |`ApprovalCode`|number|ApprovalCode is the 6 digits approval code number (IFSF H2H)|
-|`Mileage`|number|Mileage is the odometer reading of the vehicle of up to 7 digits (usually in km/miles resolution)|
+|`Mileage`|number|Mileage is the odometer reading of the vehicle of up to 7 digits (unit: kilometers). Default value: "0"|
 
 ## Example
 
