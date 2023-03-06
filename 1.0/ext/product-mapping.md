@@ -7,7 +7,7 @@ It is highly recommended to implement the product mapping. If the product mappin
 
 Type: **Notification**
 
-Product with its ID, categorised as stated in PRODUCTS. Should only be sent as reaction to a previous PRODUCTS message.
+Product with its ID, categorised as stated in `PRODUCTS`. Should only be sent as reaction to a previous PRODUCTS message. If `OptionalName` is not given, the server tries to use `Description` provided via `PRICE` as fallback.
 
 Arguments:
 
@@ -77,37 +77,37 @@ products_method = "PRODUCTS" .
 
 Full list of all product types that can be used in OpenFSC
 
-| Product Type         | Description                                                               |
-| -------------------- | ------------------------------------------------------------------------- |
-| `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                           |
-| `careDiesel` *       | => deprecated, use `dieselHvo` instead                                    |
-| `cng`                | Compressed natural gas                                                    |
-| `diesel`             | Diesel fuel                                                               |
-| `dieselB0`           | Diesel fuel (0% bio additives)                                            |
-| `dieselB7`           | Diesel fuel (up to 7% bio additives)                                      |
-| `dieselB15`          | Diesel fuel (up to 15% bio additives)                                     |
-| `dieselB20`          | Diesel fuel (up to 20% bio additives)                                     |
-| `dieselBMix`         | Diesel fuel (unspecified amount of additives)                             |
-| `dieselGtl`          | GTL/XTL Diesel (synthetic, gas-to-liquid or x-to-liquid)                  |
-| `dieselHvo`          | HVO or CARE Diesel                                                        |
-| `dieselPremium`      | Premium Diesel                                                            |
-| `dieselRed`          | Red/colored Diesel (used in agricultural vehicles or generators)          |
-| `dieselSynthetic`    | Other types of synthetic Diesel (EN 15940 fuel)                           |
-| `e85`                | Ethanol (85%)                                                             |
-| `h2`                 | Hydrogen                                                                  |
-| `heatingOil`         | Heating oil (note: most likely not used to power vehicles!)               |
-| `lng`                | Liquefied natural gas                                                     |
-| `lpg`                | Liquefied petroleum gas (propane and butane)                              |
-| `ron95e5`            | RON 95 grade gasoline (up to 5% bio additives)                            |
-| `ron95e10`           | RON 95 grade gasoline (up to 10% bio additives)                           |
-| `ron98`              | RON 98 grade gasoline                                                     |
-| `ron98e5`            | RON 98 grade gasoline (up to 5% bio additives)                            |
-| `ron100`             | RON 100 grade gasoline                                                    |
-| `syntheticDiesel` *  | => deprecated, use `dieselSynthetic` instead                              |
-| `truckAdBlue`        | AdBlue Diesel exhaust fluid (DEF, also: AUS 32) for commercial vehicles   |
-| `truckDiesel`        | Diesel for commercial vehicles (including agricultural diesel fuel)       |
-| `truckDieselPremium` | Premium Diesel for commercial vehicles                                    |
-| `truckLpg`           | Liquefied petroleum gas for commercial vehicles                           |
+| Product Type         | Description                                                             |
+| -------------------- | ----------------------------------------------------------------------- |
+| `adBlue`             | AdBlue Diesel exhaust fluid (DEF, also: AUS 32)                         |
+| `careDiesel` *       | => deprecated, use `dieselHvo` instead                                  |
+| `cng`                | Compressed natural gas                                                  |
+| `diesel`             | Diesel fuel                                                             |
+| `dieselB0`           | Diesel fuel (0% bio additives)                                          |
+| `dieselB7`           | Diesel fuel (up to 7% bio additives)                                    |
+| `dieselB15`          | Diesel fuel (up to 15% bio additives)                                   |
+| `dieselB20`          | Diesel fuel (up to 20% bio additives)                                   |
+| `dieselBMix`         | Diesel fuel (unspecified amount of additives)                           |
+| `dieselGtl`          | GTL/XTL Diesel (synthetic, gas-to-liquid or x-to-liquid)                |
+| `dieselHvo`          | HVO or CARE Diesel                                                      |
+| `dieselPremium`      | Premium Diesel                                                          |
+| `dieselRed`          | Red/colored Diesel (used in agricultural vehicles or generators)        |
+| `dieselSynthetic`    | Other types of synthetic Diesel (EN 15940 fuel)                         |
+| `e85`                | Ethanol (85%)                                                           |
+| `h2`                 | Hydrogen                                                                |
+| `heatingOil`         | Heating oil (note: most likely not used to power vehicles!)             |
+| `lng`                | Liquefied natural gas                                                   |
+| `lpg`                | Liquefied petroleum gas (propane and butane)                            |
+| `ron95e5`            | RON 95 grade gasoline (up to 5% bio additives)                          |
+| `ron95e10`           | RON 95 grade gasoline (up to 10% bio additives)                         |
+| `ron98`              | RON 98 grade gasoline                                                   |
+| `ron98e5`            | RON 98 grade gasoline (up to 5% bio additives)                          |
+| `ron100`             | RON 100 grade gasoline                                                  |
+| `syntheticDiesel` *  | => deprecated, use `dieselSynthetic` instead                            |
+| `truckAdBlue`        | AdBlue Diesel exhaust fluid (DEF, also: AUS 32) for commercial vehicles |
+| `truckDiesel`        | Diesel for commercial vehicles (including agricultural diesel fuel)     |
+| `truckDieselPremium` | Premium Diesel for commercial vehicles                                  |
+| `truckLpg`           | Liquefied petroleum gas for commercial vehicles                         |
 
 Deprecated fuel types are marked with `*` in the list above. Do not use them for new implementations, they will be removed in an upcoming version:
 
