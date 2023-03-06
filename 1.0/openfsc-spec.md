@@ -6,21 +6,46 @@ Copyright (c) 2019–2022 PACE Telematics GmbH
 
 ## Table of contents
 
-- [1 About This Document](#1-about-this-document)
-  - [1.1 Not Part of this Document](#11-not-part-of-this-document)
-- [2 Architecture Overview](#2-architecture-overview)
-  - [2.1 Parties](#21-parties)
-  - [2.2 Requirements](#22-requirements)
-- [3 Process Overview](#3-process-overview)
-  - [3.1 Post-Pay Process](#31-post-pay-process)
-  - [3.2 Pre-Auth Process](#32-pre-auth-process)
-- [4 Communication Protocol](#4-communication-protocol)
-  - [4.1 Plain Text Protocol](#41-plain-text-protocol)
-    - [4.1.1 TAG](#411-tag)
-    - [4.1.2 Methods and Arguments](#412-methods-and-arguments)
-    - [4.1.3 Example Plaintext Session](#413-example-plaintext-session)
-    - [4.1.4 EBNF](#414-ebnf)
-    - [4.1.5 Protocol Extensions](#415-protocol-extensions)
+- [OpenFSC Protocol Specification (Version 1.0)](#openfsc-protocol-specification-version-10)
+  - [Table of contents](#table-of-contents)
+  - [1 About This Document](#1-about-this-document)
+    - [1.1 Not Part of this Document](#11-not-part-of-this-document)
+  - [2 Architecture Overview](#2-architecture-overview)
+    - [2.1 Parties](#21-parties)
+    - [2.2 Requirements](#22-requirements)
+  - [3 Process Overview](#3-process-overview)
+    - [3.1 Post-Pay Process](#31-post-pay-process)
+    - [3.2 Pre-Auth Process](#32-pre-auth-process)
+  - [4 Communication Protocol](#4-communication-protocol)
+    - [4.1 Plain Text Protocol](#41-plain-text-protocol)
+      - [4.1.1 TAG](#411-tag)
+      - [4.1.2 Methods and Arguments](#412-methods-and-arguments)
+        - [Handshake/Not Authenticated State](#handshakenot-authenticated-state)
+          - [`CAPABILITY`](#capability)
+          - [`CHARSET` (Encoding Method)](#charset-encoding-method)
+          - [`PLAINAUTH` (Authentication Method)](#plainauth-authentication-method)
+        - [Authenticated State](#authenticated-state)
+          - [`CLEAR`](#clear)
+          - [`HEARTBEAT`](#heartbeat)
+          - [`LOCKPUMP`](#lockpump)
+          - [`PRICE`](#price)
+          - [`PRICES`](#prices)
+          - [`PUMP`](#pump)
+          - [`PUMPS`](#pumps)
+          - [`PUMPSTATUS`](#pumpstatus)
+          - [`TRANSACTION`](#transaction)
+          - [`TRANSACTIONS`](#transactions)
+          - [`UNLOCKPUMP`](#unlockpump)
+          - [`LOCKEDPUMP`](#lockedpump)
+        - [General (Always Valid/Special Methods)](#general-always-validspecial-methods)
+          - [`BEAT`](#beat)
+          - [`ERR` (Special)](#err-special)
+          - [`OK` (Special)](#ok-special)
+          - [`QUIT`](#quit)
+      - [4.1.3 Example Plaintext Session](#413-example-plaintext-session)
+      - [4.1.4 EBNF](#414-ebnf)
+      - [4.1.5 Protocol Extensions](#415-protocol-extensions)
+      - [4.1.6 Supported Currencies](#416-supported-currencies)
 
 ## 1 About This Document
 
@@ -243,13 +268,9 @@ Direction: **Server → Client**
 Mark a transaction as cleared from server side. This frees the occupied pump and deletes the corresponding transaction. If the operation was successful, OK will be returned. In case of an error the client returns an ERR message.
 
 In case the clear could not be acknowledged by the client side due to a network disconnect, the clear is half processed.
-The transaction can now be in two states, `cleared` and `open`. In case the transaction is still `open` it will be reported by the usual `TRANSACTIONS` call,
-the server can safely assume the `CLEAR` was never received and retry. In case the transaction was `cleared` the transaction is not reported by the `TRANSACTIONS` call. The server doesn't know if this was caused by the `CLEAR`,
+The transaction can now be in two states, `cleared` and `open`. In case the transaction is still `open` it will be reported by the usual `TRANSACTIONS` call, the server can safely assume the `CLEAR` was never received and retry. In case the transaction was `cleared` the transaction is not reported by the `TRANSACTIONS` call. The server doesn't know if this was caused by the `CLEAR`,
 or a payment in the shop. To resolve the information issue, the server will retry to clear the transaction after the client reconnected.
-If the client reports **403** the payment was done externally and **not** cleared by the server, usually by paying in the shop. If the client reports **410**
-the initial `CLEAR` was processed by the client and the server can now assume that the payment was successfully made. Some clients may only store the transaction
-for a certain time period (e.g. 24h). If the connection is not established for that time period, the client may responds with **404** the transaction isn't known
-any longer, this will cause an expensive back office process and should be avoided if possible. Summary of the errors on retry and how they are understood:
+If the client reports **403** the payment was done externally and **not** cleared by the server, usually by paying in the shop. If the client reports **410** the initial `CLEAR` was processed by the client and the server can now assume that the payment was successfully made. Some clients may only store the transaction for a certain time period (e.g. 24h). If the connection is not established for that time period, the client may responds with **404** the transaction isn't known any longer, this will cause an expensive back office process and should be avoided if possible. Summary of the errors on retry and how they are understood:
 
 - **404** Initial clearing was too long ago, the client doesn't known about the transaction any longer → back office process
 - **403** The payment was done otherwise → the payment transaction will be canceled
@@ -446,6 +467,7 @@ Errors:
 
 - **403** Payment method not permitted
 - **404** Pump or ProductID unknown
+- **412** Pump is already locked on site
 - **422** Currency unknown
 
 ###### `LOCKEDPUMP`
