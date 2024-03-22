@@ -1,4 +1,6 @@
-# Additonal Receipt Information (`RECEIPTINFO`)
+# Additional Receipt Information (`RECEIPTINFO`)
+
+:warning: **NOTE: This extension is discontinued, and will be removed in future versions.**
 
 Every transaction and clearing creates many data points on the gas station site. This information is valuable to the client and the gas station for traceability in case of issue resolution. Using the `RECEIPTINFO` capability the server announces, that additional receipt info may be sent while clearing the transaction.
 
