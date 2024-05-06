@@ -15,7 +15,7 @@ Arguments:
 - **Category** (arg1, string): category of the provided product. Needs to be one of: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types).
 - **VATRate** (arg2, decimal): rate of VAT used for this product in percent. (e.g.: 19.0)
 - **Unit** *optional* (arg3, string): unit use for the fuel. (e.g.: LTR)
-- **OptionalName** *optional* (arg4, string): optional fuel name. (e.g.: Super Müller T. diesel)
+- **OptionalName** *optional* (arg4, string): optional fuel name. (e.g.: Super Müller T. Diesel)
 
 ## `PRODUCTS`
 
@@ -34,14 +34,14 @@ C: * PUMP 2 locked
 C: S1 OK
 S: S2 PRODUCTS
 C: * PRODUCT 0100 ron98 19.0
-C: * PRODUCT 0200 ron95 19.0
+C: * PRODUCT 0200 ron95e10 19.0
 C: * PRODUCT 0300 ron95e5 19.0
 C: * PRODUCT 0400 diesel 19.0
 C: S2 OK
 S: S3 PRICES
 C: * PRICE 0100 LTR EUR 1.339 Super Plus
-C: * PRICE 0200 LTR EUR 1.229 Super 95
-C: * PRICE 0300 LTR EUR 1.499 Super 95 e5
+C: * PRICE 0200 LTR EUR 1.229 Super 95 E10
+C: * PRICE 0300 LTR EUR 1.499 Super 95
 C: * PRICE 0400 LTR EUR 1.209 Diesel
 C: S3 OK
 ```
