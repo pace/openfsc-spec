@@ -34,13 +34,16 @@ The OpenFSC protocol is used by several companies, apps and products under the h
 
 **Libraries & SDKs**
 
-- JavaScript Client Library: [On GitHub](//github.com/pace/openfsc-client-js)
-- C#/.NET Client Library: [On GitHub](//github.com/pace/openfsc-client-dotnet)
+The following example clients are available to give you an idea of how an implementation could look like:
+
+- Example of a JavaScript client: [On GitHub](//github.com/pace/openfsc-client-js)
+- Example of a C#/.NET client: [On GitHub](//github.com/pace/openfsc-client-dotnet)
+
+_Note:_ The source code of those clients is provided as _code/implementation example_, and it will not run on the OpenFSC `sandbox` or `production` environments.
 
 **Testing & Integration Utilities**
 
-- [Fueling Simulator] is a little frontend used to simulate a gas station for development or presentation purposes. It uses the **JavaScript Client Library** to connect to Connected Fueling via OpenFSC protocol. Will be provided by PACE with your credentials.
-- [PACE Docs](//docs.pace.cloud)
+- The **Fueling Simulator** is a browser frontend used to simulate a gas station for development or presentation purposes. Access will be provided by PACE during the implementation phase of your project.
 
 ## Contributing
 
