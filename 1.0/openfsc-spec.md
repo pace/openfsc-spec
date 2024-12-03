@@ -2,7 +2,7 @@
 
 <img align="right" width="25%" src="../assets/connected-fueling-logo.svg">
 
-Copyright (c) 2019–2022 PACE Telematics GmbH
+Copyright (c) 2019–2024 PACE Telematics GmbH
 
 ## Table of contents
 
@@ -117,7 +117,7 @@ The following minimal requirements are assumed when implementing OpenFSC:
   - the transaction state
   - the product ID
   - the fueled amount
-  - the price, price with VAT, VAT
+  - the total net and gross prices, VAT rate
 - Information about the currency used as well as current time
 - Authentication data, needed to connect to an OpenFSC Server
 
@@ -139,8 +139,9 @@ Both processes start by updating the current pumps and price information, in ord
 ### 3.2 Pre-Auth Process
 
 - The user has to pre-authorize the payment, the amount is explicitly chosen by the user OR implicitly set high enough, such that a full fueling could take place (tank size _fuel type price_ 120%).
-- The status updates work in the same way as with a Post-Pay fueling, the only difference is, that the process waits until the state **locked** is reached. The pre-authorized amount will be captured by the gas station by providing the fuelled amount and price.
-- The user will be presented with the bill and informed that the transaction is complete.
+- The status updates work in the same way as with a Post-Pay fueling, the only difference is, that the process waits until the state **locked** is reached. The pre-authorized amount will be captured by the gas station by providing the quantity of product dispensed and the total price.
+- In case of cancellation (no fuel delivered), the client does not report a transaction but uses the [`LOCKEDPUMP`](#lockedpump) command to indicate the cancellation of the process.
+- The user will be presented with the transaction receipt/delivery note and informed that the transaction is complete.
 
 ![assets/pre-auth-flow.png](assets/pre-auth-process.png)
 
@@ -405,6 +406,8 @@ Type: **Notification**
 Direction: **Client → Server**
 
 Information about a specific transaction of a pump, open or deferred. Should be sent as reaction to a previous TRANSACTIONS message and may be sent pro-actively if the status of a transaction changes.
+
+Note: `TRANSACTION` shall only be used if a product was actually dispensed (non-zero amount/quantity transaction). In case of cancellation on station side without a product being dispensed, please use [`LOCKEDPUMP`](#lockedpump) instead (only applicable when using the pre-auth workflow).
 
 Arguments:
 
