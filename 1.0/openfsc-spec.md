@@ -75,7 +75,7 @@ However, there's a document outlining expected data and ways to integrate:
 The documentation for the API and the interaction between the App and the Connected Fueling API can be found here:
 
 - [PACE Developer Documentation](https://docs.pace.cloud/)
-- [Connected Fueling API Documentation](https://developer.pace.cloud/overview)
+- [Connected Fueling API Documentation](https://developer.pace.cloud)
 
 ## 2 Architecture Overview
 
