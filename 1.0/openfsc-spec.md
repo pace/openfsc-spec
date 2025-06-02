@@ -284,7 +284,17 @@ Arguments:
 - **Pump** (args0, number): identifier of the concerned pump. Lowest possible value: 1.
 - **SiteTransactionID** (arg1, string): ID of the transaction which should be cleared. Defined by the client with a previous TRANSACTION message. In case of UNLOCKPUMP the **SiteTransactionID** and **FSCTransactionID** may be the same, since the site returns the transaction id provided by OpenFSC.
 - **FSCTransactionID** (arg2, uuid): ID defined by the server side. If the transaction was triggered with UNLOCKPUMP the ID must match with the one of the previous UNLOCKPUMP method.
-- **PaymentMethod** (arg3, string): Name of the payment method used e.g. `pace`, `dkv`, ...
+- **PaymentMethod** (arg3, string): Identifier of the payment method used e.g. `pace`, `dkv`, ...
+
+The following options are currently supported as **PaymentMethod**:
+
+- `pace`
+- `dkv`
+- `esso`
+- `hoyer`
+- `logpay`
+- `omv`
+- `tfc`
 
 Errors:
 
@@ -299,9 +309,9 @@ Type: **Request/Response**
 Direction: **Server → Client**
 
 Check if the client is still available and try to calculate the time drift between server and client. This method is issued regularly to detect the time drift and to check if the communication channel between server and client is up and running.
-	
+ 
 The client answers with a tagged `BEAT` message before sending an `OK`. If an error occurred the client returns an `ERR` message.
-	
+ 
 The `HEARTBEAT` message must be answered by the client within 20 seconds, otherwise the communication channel is considered unstable. Multiple failures in answering in time will result in the communication channel being forcefully closed (`QUIT`).
 
 Arguments:
