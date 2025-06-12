@@ -511,7 +511,7 @@ Errors:
 
 Direction: **Client → Server**
 
-Informational response for a HEARTBEAT request. This method is purely informational to the server and does not conclude the HEARTBEAT request.
+Informational response for a `HEARTBEAT` request. This method is purely informational to the server and *does not fully conclude* the `HEARTBEAT` request. In order to complete the request, the client must also send an `OK` message. Please refer to [`HEARTBEAT`](#heartbeat) for more information.
 
 Arguments: **Timestamp** (arg0, string): time at which this message was sent in the format of `RFC-3339`.
 
