@@ -1,5 +1,7 @@
 # Explicit Pushing of Information (`PUSH` / `PUSHING`)
 
+:warning: **NOTE: This extension is discontinued, and will be removed in future versions.**
+
 The default protocol specification allows pushing information at any time. Since the push is not mandatory the server has to be sure about the current status of the site. That means that on the approaching of the user or while payment the data for prices, products, and transactions are needed and will be requested. Some site systems may be able to provide the information on a push basis and can take over the responsibility.
 
 In order for a site to take over the responsibility the client needs to send the capability `PUSH`. The server will directly after a new session is initiated, call the `PUSH` command to request which information can be pushed. The client then needs to respond with `PUSHING` and the pushed information. This way the client can decide and communicate that only a subset of information is pushed.
