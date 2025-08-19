@@ -476,6 +476,16 @@ Arguments:
 - **ProductID7** (arg11, string, optional): identifier of an unlocked product. (e.g.: 0700)
 - **ProductID8** (arg12, string, optional): identifier of an unlocked product. (e.g.: 0800)
 
+The following options are currently supported as **PaymentMethod**:
+
+- `pace`
+- `dkv`
+- `esso`
+- `hoyer`
+- `logpay`
+- `omv`
+- `tfc`
+
 Errors:
 
 - **403** Payment method not permitted
