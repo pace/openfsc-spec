@@ -294,8 +294,10 @@ The following options are currently supported as **PaymentMethod**:
 - `hoyer`
 - `logpay`
 - `omv`
+- `pfc`
+- `roadrunner`
 - `tfc`
-
+ 
 Errors:
 
 - **404** Pump and SiteTransactionID unknown
@@ -484,6 +486,8 @@ The following options are currently supported as **PaymentMethod**:
 - `hoyer`
 - `logpay`
 - `omv`
+- `pfc`
+- `roadrunner`
 - `tfc`
 
 Errors:
