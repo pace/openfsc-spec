@@ -294,6 +294,7 @@ The following options are currently supported as **PaymentMethod**:
 - `hoyer`
 - `logpay`
 - `omv`
+- `roadrunner`
 - `tfc`
 
 Errors:
@@ -484,6 +485,7 @@ The following options are currently supported as **PaymentMethod**:
 - `hoyer`
 - `logpay`
 - `omv`
+- `roadrunner`
 - `tfc`
 
 Errors:
