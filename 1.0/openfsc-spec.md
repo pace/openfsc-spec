@@ -2,7 +2,7 @@
 
 <img align="right" width="25%" src="../assets/connected-fueling-logo.svg">
 
-Copyright (c) 2019–2024 PACE Telematics GmbH
+Copyright (c) 2019–2026 PACE Mobility GmbH
 
 ## Table of contents
 
