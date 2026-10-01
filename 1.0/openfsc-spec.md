@@ -380,7 +380,7 @@ Status of a specific pump sent from the client. Should be sent as reaction to a 
 Arguments:
 
 - **Pump** (arg0, number): identifier of the pump. Lowest possible value: 1.
-- **Status** (arg1, string)**:** status of the current pump. Supported values: **free**, **in-use, in-transaction**, **ready-to-pay, locked** or **out-of-order**
+- **Status** (arg1, string)**:** status of the current pump. Supported values: **free**, **in-use**, **ready-to-pay**, **locked** or **out-of-order**. The value **in-transaction** is deprecated and will be removed in future versions; clients should not send it.
 
 ###### `PUMPS`
 
