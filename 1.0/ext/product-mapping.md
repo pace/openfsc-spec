@@ -15,7 +15,7 @@ Arguments:
 - **Category** (arg1, string): category of the provided product. Needs to be one of: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types).
 - **VATRate** (arg2, decimal): rate of VAT used for this product in percent. (e.g.: 19.0)
 - **Unit** *optional* (arg3, string): unit use for the fuel. (e.g.: LTR)
-- **OptionalName** *optional* (arg4, string): optional fuel name. (e.g.: Super Müller T. Diesel)
+- **OptionalName** *optional* (arg4, string): optional fuel name. Can only be given together with **Unit**. (e.g.: Super Müller T. Diesel)
 
 ## `PRODUCTS`
 
@@ -46,7 +46,7 @@ C: * PRICE 0400 LTR EUR 1.209 Diesel
 C: S3 OK
 ```
 
-We also leave the possibility to use products without giving any price. It's strongly recommend in that case to use the optionals parameters (**Unit**, **OptionalName**: required together)
+We also leave the possibility to use products without giving any price. It's strongly recommended in that case to use the optional parameters **Unit** and **OptionalName**. **Unit** can be sent without **OptionalName**, but **OptionalName** requires **Unit** to be present.
 
 ## Example (without price)
 
@@ -57,6 +57,7 @@ C: * PUMP 2 locked
 C: S1 OK
 S: S2 PRODUCTS
 C: * PRODUCT 0100 ron98 19.0 LTR Test Super 98 Power Fuel
+C: * PRODUCT 0200 ron95e10 19.0 LTR
 C: * PRODUCT 0300 ron95e5 19.0 LTR Super E5 Fuel
 C: * PRODUCT 0400 diesel 19.0
 C: S2 OK
@@ -68,7 +69,8 @@ C: S2 OK
 product_method = "PRODUCT"
     space string
     space string
-    space decimal .
+    space decimal
+    [ space unit [ space argv ] ] .
 
 products_method = "PRODUCTS" .
 ```
