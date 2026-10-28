@@ -494,7 +494,7 @@ Errors:
 
 - **403** Payment method not permitted
 - **404** Pump or ProductID unknown
-- **412** Pump is already locked on site
+- **412** Pump is in use: it was already unlocked or is currently used by someone else (e.g. a customer paying at the POS or with another payment method). The pump was not unlocked.
 - **422** Currency unknown
 
 ###### `LOCKEDPUMP`
