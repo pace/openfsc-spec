@@ -1,27 +1,31 @@
 # Product Mapping (`PRODUCTS` and `PRODUCT`)
 
-To map the site local product IDs to categories which can easily be understood by the server, two extra methods can be used: `PRODUCT` and `PRODUCTS`.
-It is highly recommended to implement the product mapping. If the product mapping is not implemented the `VATRate` for products needs to be delivered using a different method.
+To map site-local product IDs to categories that the server can easily understand, two additional methods can be used: `PRODUCT` and `PRODUCTS`.
+Implementing product mapping is highly recommended. If product mapping is not implemented, the `VATRate` of the products has to be provided by other means.
 
 ## `PRODUCT`
 
 Type: **Notification**
 
-Product with its ID, categorised as stated in `PRODUCTS`. Should only be sent as reaction to a previous PRODUCTS message. If `OptionalName` is not given, the server tries to use `Description` provided via `PRICE` as fallback.
+Direction: **Client → Server**
+
+A product with its ID and category. Should only be sent in response to a previous `PRODUCTS` request. If `OptionalName` is not given, the server falls back to the `Description` provided via `PRICE`.
 
 Arguments:
 
 - **ProductID** (arg0, string): identifier of the product. (e.g.: 0100)
-- **Category** (arg1, string): category of the provided product. Needs to be one of: **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types).
-- **VATRate** (arg2, decimal): rate of VAT used for this product in percent. (e.g.: 19.0)
-- **Unit** *optional* (arg3, string): unit use for the fuel. (e.g.: LTR)
-- **OptionalName** *optional* (arg4, string): optional fuel name. Can only be given together with **Unit**. (e.g.: Super Müller T. Diesel)
+- **Category** (arg1, string): category of the product. Must be one of the [product types](#product-types), e.g. **ron98**, **ron98e5**, **ron95e10**, **diesel**, **e85**, ...
+- **VATRate** (arg2, decimal): VAT rate of this product in percent. (e.g.: 19.0)
+- **Unit** *optional* (arg3, string): unit used for the product. (e.g.: LTR)
+- **OptionalName** *optional* (arg4, string): human-readable product name. Can only be given together with **Unit**. (e.g.: Super Müller T. Diesel)
 
 ## `PRODUCTS`
 
 Type: **Request/Response**
 
-Get all available products categorised as the following types: **ron98**, **ron95e10**, **diesel**, **e85**, ... see [Product types](#Product-types). The client needs to make sure that all products have been transmitted with PRODUCT notifications before they can send an OK to conclude the PRODUCTS request. In case of an error the client returns an ERR message.
+Direction: **Server → Client**
+
+Get all available products with their category (see [Product types](#product-types)). The client must make sure that all products have been transmitted with `PRODUCT` notifications before sending `OK` to conclude the `PRODUCTS` request. In case of an error, the client returns an ERR message.
 
 Arguments: **None**
 
@@ -46,7 +50,7 @@ C: * PRICE 0400 LTR EUR 1.209 Diesel
 C: S3 OK
 ```
 
-We also leave the possibility to use products without giving any price. It's strongly recommended in that case to use the optional parameters **Unit** and **OptionalName**. **Unit** can be sent without **OptionalName**, but **OptionalName** requires **Unit** to be present.
+Products can also be provided without any price. In that case, it is strongly recommended to use the optional arguments **Unit** and **OptionalName**. **Unit** can be sent without **OptionalName**, but **OptionalName** requires **Unit** to be present.
 
 ## Example (without price)
 
@@ -77,7 +81,7 @@ products_method = "PRODUCTS" .
 
 ### Product types
 
-Full list of all product types that can be used in OpenFSC
+Full list of all product types that can be used in OpenFSC:
 
 | Product Type         | Description                                                             |
 | -------------------- | ----------------------------------------------------------------------- |
@@ -111,12 +115,12 @@ Full list of all product types that can be used in OpenFSC
 | `truckDieselPremium` | Premium Diesel for commercial vehicles                                  |
 | `truckLpg`           | Liquefied petroleum gas for commercial vehicles                         |
 
-Deprecated fuel types are marked with `*` in the list above. Do not use them for new implementations, they will be removed in an upcoming version:
+Deprecated product types are marked with `*` in the list above. Do not use them in new implementations; they will be removed in an upcoming version:
 
 - `careDiesel`
 - `syntheticDiesel`
 
-Legacy product types which are already removed from spec, and cannot be used anymore:
+Legacy product types that have already been removed from the specification and can no longer be used:
 
 - `e50` => removed
 - `methanol` => removed

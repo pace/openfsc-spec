@@ -2,19 +2,21 @@
 
 :warning: **NOTE: This extension is discontinued, [Transaction Information](transaction-info.md) should be used instead.**
 
-A client may need the PAN for clearing. To signal the server that a PAN is required, the new message type `PAN` is introduced. If the `PAN` capability is announced by the client, the server will send the PAN for the transaction before clearing (`CLEAR`). Since a PAN is a very sensitive piece of information, the OpenFSC server can neglect to send the PAN even if requested by the client. Eligibility for the PAN is stored in the OpenFSC backend and has to be agreed on business-wise.
+A client may need the PAN for clearing. To signal to the server that a PAN is required, the new message type `PAN` is introduced. If the client announces the `PAN` capability, the server sends the PAN of the transaction before clearing it (`CLEAR`). Since a PAN is very sensitive information, the OpenFSC server may decline to send the PAN even if the client requests it. Eligibility for receiving the PAN is stored in the OpenFSC backend and has to be agreed upon on a business level.
 
 ## `PAN`
 
 Type: **Request/Response**
 
-Prepares the PAN information to execute a later CLEAR.
+Direction: **Server → Client**
+
+Provides the PAN needed for a subsequent `CLEAR`.
 
 Arguments:
 
-- **FSCTransactionID** (arg0, uuid): ID given by the server for informational reasons (defined by the server). Will be returned with the corresponding `CLEAR` command, to correlate the transactions.
+- **FSCTransactionID** (arg0, uuid): ID defined by the server. The same ID is sent with the corresponding `CLEAR` request to correlate the transactions.
 
-- **PAN** (arg1, string): PAN is the 19 chars primary account number
+- **PAN** (arg1, string): primary account number (19 to 21 digits)
 
 ## Example
 
@@ -45,16 +47,16 @@ C: S3 OK
 C: * PUMP 3 in-use
 C: * PUMP 3 ready-to-pay
 S: S4 TRANSACTIONS
-C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.978 19.0 13.65 LTR 54.40
+C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.97 19.0 13.86 LTR 64.85 1.339
 C: S4 OK
-S: S5 PAN e2f74ef5-f427-4ae6-bdd3-70a96709992f 654654654654654488
+S: S5 PAN e2f74ef5-f427-4ae6-bdd3-70a96709992f 6546546546546544881
 C: S5 OK
 S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace
 C: S6 OK
 C: * QUIT bye bye
 ```
 
-PAN should be deleted from session store on client side after successful or transaction failed. In case the PAN is requierd the client is allowed to return the error `404` on clearing:
+The client should delete the PAN from its session store once the transaction has either succeeded or failed. If the PAN is required but was not received, the client may return the error `404` on clearing:
 
 ```
 S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace

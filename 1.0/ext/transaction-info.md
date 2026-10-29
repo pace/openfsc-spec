@@ -1,30 +1,32 @@
 # Transaction Information (`TRANSACTIONINFO`)
 
-A client may need the TRANSACTIONINFO in case of payment by card. To signal the server that the TRANSACTIONINFO is accepted, the new message type `TRANSACTIONINFO` is introduced. If the `TRANSACTIONINFO` capability is announced by the client, the server will send the Info for the transaction before clearing (`CLEAR`) and before (`UNLOCKPUMP`) in case of pre-auth. 
+A client may need additional transaction information, e.g. in case of payment by card. To signal to the server that it accepts this information, the client announces the `TRANSACTIONINFO` capability. If it does, the server sends the information for the transaction before clearing it (`CLEAR`) or, in the Pre-Auth process, before unlocking the pump (`UNLOCKPUMP`).
 
-**Since this information is very sensitive, the OpenFSC server can neglect to send the TRANSACTIONINFO even if accepted by the client. Eligibility for the TRANSACTIONINFO is stored in the OpenFSC backend and has to be agreed on business-wise.**
+**Since this information is very sensitive, the OpenFSC server may decline to send `TRANSACTIONINFO` even if the client accepts it. Eligibility for receiving `TRANSACTIONINFO` is stored in the OpenFSC backend and has to be agreed upon on a business level.**
 
 ## `TRANSACTIONINFO`
 
 Type: **Notification**
 
-Provides transaction info like the PAN, ApprovalCode and Mileage information to execute a later CLEAR or UNLOCKPUMP.
+Direction: **Server → Client**
+
+Provides transaction information such as the PAN, approval code and mileage, needed for a subsequent `CLEAR` or `UNLOCKPUMP`.
 
 Arguments:
 
-- **FSCTransactionID** (arg0, uuid): ID given by the server for informational reasons (defined by the server).
-- **Key** (arg1, string): Key following by the corresponding value
-- **Value** (arg2, string): Value depending on the key
+- **FSCTransactionID** (arg0, uuid): ID defined by the server.
+- **Key** (arg1, string): key of the information (see table below)
+- **Value** (arg2, string): value of the information; its format depends on the key
 
-Defined key-value pairs:
+Defined key/value pairs:
 
 |Key|Type|Description|
 |-|-|-|
-|`PAN`|string|PAN is the 19 to 21 digits primary account number of the card used for this transaction|
-|`ApprovalCode`|number|ApprovalCode is the 6 digits approval code number (IFSF H2H)|
-|`Mileage`|number|Mileage is the odometer reading of the vehicle of up to 7 digits (unit: kilometers). Default value: "0"|
+|`PAN`|string|Primary account number (19 to 21 digits) of the card used for this transaction|
+|`ApprovalCode`|number|6-digit approval code (IFSF H2H)|
+|`Mileage`|number|Odometer reading of the vehicle, up to 7 digits (unit: kilometers). Default value: "0"|
 
-## Example
+## Example (Post-Pay)
 
 ```
 C: * CAPABILITY CLEAR HEARTBEAT LOCKPUMP PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS UNLOCKPUMP TRANSACTIONINFO
@@ -53,7 +55,7 @@ C: S3 OK
 C: * PUMP 3 in-use
 C: * PUMP 3 ready-to-pay
 S: S4 TRANSACTIONS
-C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.978 19.0 13.65 LTR 54.40
+C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.97 19.0 13.86 LTR 64.85 1.339
 C: S4 OK
 S: * TRANSACTIONINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f PAN 92873498723498792384
 S: * TRANSACTIONINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f ApprovalCode 643972
@@ -63,7 +65,7 @@ C: S6 OK
 C: * QUIT bye bye
 ```
 
-## Example Pre Auth
+## Example (Pre-Auth)
 
 ```
 C: * CAPABILITY CLEAR HEARTBEAT LOCKPUMP PRICES PUMPS PUMPSTATUS QUIT TRANSACTIONS UNLOCKPUMP TRANSACTIONINFO

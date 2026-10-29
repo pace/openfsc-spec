@@ -2,29 +2,31 @@
 
 :warning: **NOTE: This extension is discontinued, and will be removed in future versions.**
 
-Every transaction and clearing creates many data points on the gas station site. This information is valuable to the client and the gas station for traceability in case of issue resolution. Using the `RECEIPTINFO` capability the server announces, that additional receipt info may be sent while clearing the transaction.
+Every transaction and clearing creates many data points at the gas station. This information is valuable to the client and the gas station for traceability when resolving issues. By announcing the `RECEIPTINFO` capability, the server indicates that additional receipt information may be sent while clearing the transaction.
 
 ## `RECEIPTINFO`
 
 Type: **Notification**
 
-Sends additional receipt information to the server while clearing, but before the clearing ended. The information is provided using key / value pairs.
+Direction: **Client → Server**
+
+Sends additional receipt information to the server during clearing, i.e. after receiving the `CLEAR` request and before concluding it. The information is provided as key/value pairs.
 
 Arguments:
 
-- **FSCTransactionID** (arg0, uuid): ID given by the server for informational reasons (defined by the server). Needs to be provided by the client for the clearing transaction id to correlate the information.
-- **Key** (arg1, string): Name of the receipt info (see list below)
-- **Value** (arg2, string): Value of the receipt info
+- **FSCTransactionID** (arg0, uuid): ID defined by the server. The client must provide the FSCTransactionID of the transaction being cleared so that the information can be correlated.
+- **Key** (arg1, string): name of the receipt information (see list below)
+- **Value** (arg2, string): value of the receipt information
 
-List of known receipt infromation keys, additional or other keys are silently ignored:
+List of known receipt information keys; any other keys are silently ignored:
 
-- `Trace-No` Tracing number
-- `Terminal-ID` Terminal ID
-- `Receipt-No` Receipt number
-- `Site-ID` Site ID as defined by the mineral oil company
-- `Local-Date` Date of the receipt in the local date and format of the site
-- `Local-Time` Time of the receipt in the local time and format of the site
-- `VU-No` Related contract number
+- `Trace-No`: tracing number
+- `Terminal-ID`: terminal ID
+- `Receipt-No`: receipt number
+- `Site-ID`: site ID as defined by the mineral oil company
+- `Local-Date`: date of the receipt in the site's local time zone and format
+- `Local-Time`: time of the receipt in the site's local time zone and format
+- `VU-No`: related contract number
 
 ## Example
 
@@ -55,7 +57,7 @@ C: S3 OK
 C: * PUMP 3 in-use
 C: * PUMP 3 ready-to-pay
 S: S4 TRANSACTIONS
-C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.978 19.0 13.65 LTR 54.40
+C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.97 19.0 13.86 LTR 64.85 1.339
 C: S4 OK
 S: S5 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace
 C: * RECEIPTINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f Trace-No 008357
