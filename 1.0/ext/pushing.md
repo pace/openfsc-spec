@@ -2,19 +2,21 @@
 
 :warning: **NOTE: This extension is discontinued, and will be removed in future versions.**
 
-The default protocol specification allows pushing information at any time. Since the push is not mandatory the server has to be sure about the current status of the site. That means that on the approaching of the user or while payment the data for prices, products, and transactions are needed and will be requested. Some site systems may be able to provide the information on a push basis and can take over the responsibility.
+The base protocol allows clients to push information at any time. Since pushing is not mandatory, the server cannot rely on pushed data to know the current state of the site. Therefore, prices, products and transactions are requested by the server when a user approaches the site or during payment. Some site systems are able to push this information reliably and can take over this responsibility.
 
-In order for a site to take over the responsibility the client needs to send the capability `PUSH`. The server will directly after a new session is initiated, call the `PUSH` command to request which information can be pushed. The client then needs to respond with `PUSHING` and the pushed information. This way the client can decide and communicate that only a subset of information is pushed.
+For a site to take over this responsibility, the client needs to announce the `PUSH` capability. Directly after a new session has been established, the server calls `PUSH` to request which information will be pushed. The client then responds with a `PUSHING` notification for each type of information it pushes. This way, the client can decide to push only a subset of the information.
 
-Pushing transactions is special, since `TRANSACTIONS` is still invoked in case of the Post Pay process, to not push all transactions every time a fueling takes place. Announcing `TRANSACTION` works only for pre auth transactions. Pushed transactions in post pay will be accepted but don't omit the call to the site.
+Pushing transactions is a special case: in the Post-Pay process, the server still requests transactions with `TRANSACTIONS`, so that the client does not have to push all transactions every time a fueling takes place. Announcing `TRANSACTION` only takes effect for Pre-Auth transactions. Pushed Post-Pay transactions are accepted, but the server still requests the transactions from the site.
 
-**Important:** Every command that will we pushed need to be completely implemented as a capability. E.g. if transactions are pushed, the client still need to announce the `TRANSACTIONS` capability, if pumps are pushed the `PUMPS` capability is still required, same for `PRODUCTS`, `PRICES` and all other pushable commands.
+**Important:** Every method whose data is pushed must still be fully implemented as a capability. E.g. if transactions are pushed, the client still needs to announce the `TRANSACTIONS` capability; if pumps are pushed, the `PUMPS` capability is still required. The same applies to `PRODUCTS`, `PRICES` and all other pushable methods.
 
 ## `PUSH`
 
 Type: **Request/Response**
 
-Sever requests details about which data will be pushed from the client.
+Direction: **Server → Client**
+
+The server requests details about which data will be pushed by the client.
 
 If the client does not respond with `OK`, the session will be closed.
 
@@ -22,17 +24,19 @@ Arguments: **None**
 
 Errors:
 
-- **ANY** in case the PUSH can't be responded with `OK` the session will be terminated
+- **Any** error: if the `PUSH` request is not answered with `OK`, the session will be terminated
 
 ## `PUSHING`
 
 Type: **Notification**
 
-Sends the capability that will be send during push. This transfers the responsibility to the client for the given method.
+Direction: **Client → Server**
+
+Announces a method whose data will be pushed by the client. This transfers the responsibility for that data to the client.
 
 Arguments:
 
-- **Capability** (arg0, string): Name of the capability that will be pushed by the client
+- **Capability** (arg0, string): name of the method whose data will be pushed by the client
 
 ## Example
 
@@ -49,10 +53,10 @@ C: * PUSHING PRODUCT
 C: * PUSHING TRANSACTION
 C: S0 OK
 C: * PRICE 0100 LTR EUR 1.339 Super Plus
-C: * PRICE 0200 LTR EUR 1.229 Super 95
+C: * PRICE 0200 LTR EUR 1.229 Super 95 E10
 C: * PRICE 0300 LTR EUR 1.499 Super 95 e5
 C: * PRODUCT 0100 ron98 19.0
-C: * PRODUCT 0200 ron95 19.0
+C: * PRODUCT 0200 ron95e10 19.0
 C: * PRODUCT 0300 ron95e5 19.0
 S: S2 PUMPSTATUS 3
 C: * PUMP 3 locked
@@ -63,7 +67,7 @@ C: S3 OK
 C: * PUMP 3 in-use
 C: * PUMP 3 ready-to-pay
 S: S4 TRANSACTIONS
-C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.978 19.0 13.65 LTR 54.40
+C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.97 19.0 13.86 LTR 64.85 1.339
 C: S4 OK
 S: S5 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace
 C: * RECEIPTINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f Trace-No 008357

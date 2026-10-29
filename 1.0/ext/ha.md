@@ -1,12 +1,14 @@
 # Session High Availability Information (`SESSIONMODE`)
 
-A client can connect the same site through multiple connections/sessions to the server. Based on the connection time or the given priority (session), the server chooses the session with the lowest priority (oldest connection) to communicate with the client. To signal a client exactly which communication path is used, a new message type `SESSIONMODE` is introduced.
+A client can connect the same site to the server through multiple connections/sessions. Based on the session priority (see [Connection Multiplexing](connection-multiplexing.md)) or, if none is given, the connection time, the server chooses the session with the highest priority (i.e. the lowest priority value, or the oldest connection) to communicate with the client. To tell the client exactly which communication path is used, a new message type `SESSIONMODE` is introduced.
 
 ## `SESSIONMODE`
 
 Type: **Notification**
 
-Informs the client which state the current connection/session has. If the current connection/session is actively used the state is "active", if it is used as a fallback communication path, its state is "passive". If the client supports this message, the server will send it as notification to a successful `PLAINAUTH` request before returning `OK`. The state of the connection/session stays the same as long as the server does not send a new `SESSIONMODE` message with another state. If the currently "active" communication path is no longer available, the connection/session with the next highest priority will be used and therefor will receive a `SESSIONMODE` notification with the state "active".
+Direction: **Server → Client**
+
+Informs the client about the state of the current connection/session. If the current connection/session is actively used, its state is "active"; if it is used as a fallback communication path, its state is "passive". If the client supports this message, the server sends it as a notification in response to a successful `PLAINAUTH` request, before returning `OK`. The state of the connection/session remains unchanged until the server sends a new `SESSIONMODE` message with a different state. If the currently "active" communication path is no longer available, the connection/session with the next highest priority is used and therefore receives a `SESSIONMODE` notification with the state "active".
 
 Arguments:
 
@@ -16,7 +18,7 @@ Arguments:
 
 ```
 C: * CAPABILITY CLEAR HEARTBEAT LOCKPUMP PRICES PUMPS PUMPSTATUS QUIT SESSIONMODE TRANSACTIONS UNLOCKPUMP
-S: * CAPABILITY BEAT CHARSET LISTSESSIONS NEWSESSION PLAINAUTH PRICE PUMP LOCKEDPUMP TRANSACTION QUIT
+S: * CAPABILITY BEAT CHARSET SESSIONS NEWSESSION PLAINAUTH PRICE PUMP LOCKEDPUMP TRANSACTION QUIT
 C: C1 NEWSESSION s1
 S: C1 OK
 C: C2 NEWSESSION s2
@@ -46,9 +48,9 @@ C: s3.* PRICE 0400 LTR EUR 1.209 Diesel
 C: s3.S2 OK
 ```
 
-## EBNF:
+## EBNF
 
-```bash
+```text
 sessionmode_method = "SESSIONMODE"
 	space string .
 ```

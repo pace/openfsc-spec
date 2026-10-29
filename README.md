@@ -20,10 +20,10 @@ The OpenFSC protocol is used by several companies, apps and products under the h
 
 **Platforms & Customer Solutions built upon Connected Fueling platform** _(alphabetically sorted!)_
 
-- [Connected Fueling for Web](//fuel.site) is a browser based solution to pay directly at the gas station pump with your smartphone without installing an app.
+- [Connected Fueling for Web](//fuel.site) is a browser-based solution to pay directly at the gas station pump with your smartphone without installing an app.
 - [DKV Mobility App](//www.dkv-euroservice.com/de/leistungen/leistungen-and-services/weitere-produkte/dkv-app/) supports drivers throughout Europe in their search for gas stations and vehicle service stations with DKV acceptance.
-- [Hoyer Energie + Technik](//www.hoyer.de) is a mobile app to pay mobile at Hoyer stations in whole Germany.
-- [PACE Drive](//drive.pace.car) is a gas station finder app for whole Europe. The app is free to use and can be found in the [Apple App Store](//apps.apple.com/app/apple-store/id1483917851) and the [Google Play Store](//play.google.com/store/apps/details?id=car.pace.drive).
+- [Hoyer Energie + Technik](//www.hoyer.de) is a mobile app for paying at Hoyer stations throughout Germany.
+- [PACE Drive](//drive.pace.car) is a gas station finder app for all of Europe. The app is free to use and can be found in the [Apple App Store](//apps.apple.com/app/apple-store/id1483917851) and the [Google Play Store](//play.google.com/store/apps/details?id=car.pace.drive).
 - .. there are many more under development - ready to be released, soon.
 
 **Cashier/POS Systems & Forecourt Controllers** _(alphabetically sorted!)_
@@ -34,7 +34,7 @@ The OpenFSC protocol is used by several companies, apps and products under the h
 
 **Libraries & SDKs**
 
-The following example clients are available to give you an idea of how an implementation could look like:
+The following example clients are available to give you an idea of what an implementation could look like:
 
 - Example of a JavaScript client: [On GitHub](//github.com/pace/openfsc-client-js)
 - Example of a C#/.NET client: [On GitHub](//github.com/pace/openfsc-client-dotnet)
@@ -51,7 +51,7 @@ If you are interested in contributing please refer to the [CONTRIBUTING.md](CONT
 
 ## License
 
-The text of this specification is licensed under a [MIT License](LICENSE.md).
+The text of this specification is licensed under the [MIT License](LICENSE.md).
 However, the use of this spec in products and code is entirely free:
 there are no royalties, restrictions, or requirements.
 
