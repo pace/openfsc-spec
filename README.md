@@ -23,7 +23,7 @@ The OpenFSC protocol is used by several companies, apps and products under the h
 - [Connected Fueling for Web](//fuel.site) is a browser-based solution to pay directly at the gas station pump with your smartphone without installing an app.
 - [DKV Mobility App](//www.dkv-euroservice.com/de/leistungen/leistungen-and-services/weitere-produkte/dkv-app/) supports drivers throughout Europe in their search for gas stations and vehicle service stations with DKV acceptance.
 - [Hoyer Energie + Technik](//www.hoyer.de) is a mobile app for paying at Hoyer stations throughout Germany.
-- [PACE Drive](//drive.pace.car) is a gas station finder app for all of Europe. The app is free to use and can be found in the [Apple App Store](//apps.apple.com/app/apple-store/id1483917851) and the [Google Play Store](//play.google.com/store/apps/details?id=car.pace.drive).
+- [PACE Drive](//pacedrive.com) is a gas station finder app for all of Europe. The app is free to use and can be found in the [Apple App Store](//apps.apple.com/app/apple-store/id1483917851) and the [Google Play Store](//play.google.com/store/apps/details?id=car.pace.drive).
 - .. there are many more under development - ready to be released, soon.
 
 **Cashier/POS Systems & Forecourt Controllers** _(alphabetically sorted!)_

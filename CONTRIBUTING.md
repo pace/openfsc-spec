@@ -1,6 +1,6 @@
 # Open Standard
 
-The OpenFSC Specification is an open standard maintained by [PACE Telematics](//business.pace.car).
+The OpenFSC Specification is an open standard maintained by [PACE Mobility GmbH](https://pace.cloud/).
 
 ## Questions and Contributing
 
