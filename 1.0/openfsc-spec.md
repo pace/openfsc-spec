@@ -630,7 +630,9 @@ argv = any { any } .
 currency = "EUR" | "CHF" | "GBP" |
     "DKK" | "SEK" | "NOK" |
     "PLN" | "CZK" | "HUF" |
-    "RON" .
+    "RON" | "ISK" | "RSD" |
+    "MKD" | "MDL" | "UAH" |
+    "TRY" | "BAM" | "ALL" .
 unit = "LTR" .
 
 pump_status = "free" |
@@ -804,17 +806,25 @@ This section lists the available protocol extensions. All extensions are optiona
 
 Currencies are specified using their ISO 4217 alphabetic code (see <https://en.wikipedia.org/wiki/ISO_4217>). The following currencies are currently supported:
 
-| Code  | Currency         |
-| ----- | ---------------- |
-| `EUR` | Euro             |
-| `CHF` | Swiss franc      |
-| `GBP` | Pound sterling   |
-| `DKK` | Danish krone     |
-| `SEK` | Swedish krona    |
-| `NOK` | Norwegian krone  |
-| `PLN` | Polish złoty     |
-| `CZK` | Czech koruna     |
-| `HUF` | Hungarian forint |
-| `RON` | Romanian leu     |
+| Code  | Currency                                |
+| ----- | --------------------------------------- |
+| `EUR` | Euro                                    |
+| `CHF` | Swiss franc                             |
+| `GBP` | Pound sterling                          |
+| `DKK` | Danish krone                            |
+| `SEK` | Swedish krona                           |
+| `NOK` | Norwegian krone                         |
+| `PLN` | Polish złoty                            |
+| `CZK` | Czech koruna                            |
+| `HUF` | Hungarian forint                        |
+| `RON` | Romanian leu                            |
+| `ISK` | Icelandic króna                         |
+| `RSD` | Serbian dinar                           |
+| `MKD` | Macedonian denar                        |
+| `MDL` | Moldovan leu                            |
+| `UAH` | Ukrainian hryvnia                       |
+| `TRY` | Turkish lira                            |
+| `BAM` | Bosnia and Herzegovina convertible mark |
+| `ALL` | Albanian lek                            |
 
 Further ISO 4217 currencies are available on request.
