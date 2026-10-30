@@ -281,7 +281,7 @@ If the client responds with **403**, the payment was made externally (usually in
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the concerned pump. Possible values: 1 to 99.
 - **SiteTransactionID** (arg1, string): ID of the transaction that should be cleared, as defined by the client in a previous `TRANSACTION` message. If the transaction was started with `UNLOCKPUMP`, the **SiteTransactionID** and **FSCTransactionID** may be the same, since the site reports the transaction ID provided by OpenFSC.
 - **FSCTransactionID** (arg2, uuid): ID defined by the server. If the transaction was started with `UNLOCKPUMP`, the ID must match the one sent with that `UNLOCKPUMP` request.
 - **PaymentMethod** (arg3, string): identifier of the payment method used, e.g. `pace`, `dkv`, ...
@@ -334,7 +334,7 @@ Cancel, from the server side, a fueling process previously started with `UNLOCKP
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the concerned pump. Possible values: 1 to 99.
 
 Errors:
 
@@ -355,7 +355,7 @@ Arguments:
 - **ProductID** (arg0, string): identifier of the product. (e.g.: 0100)
 - **Unit** (arg1, string): unit used by the subsequent **PricePerUnit** argument. Supported values: **LTR**
 - **Currency** (arg2, string): currency used by the subsequent **PricePerUnit** argument. Supported values, see [Supported Currencies](#416-supported-currencies), for example **EUR**.
-- **PricePerUnit** (arg3, decimal): end user price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339)
+- **PricePerUnit** (arg3, price): end user price per unit including VAT in the specified **Unit** (arg1) and the specified **Currency** (arg2). (e.g. for EUR/LTR: 1.339) At most 4 integer digits and 1 to 3 fractional digits (`dddd.ddd`); whole values must be sent with a fractional part (e.g. `589.0`).
 - **Description** (argV): human-readable name/description of the product. (e.g.: Super Plus)
 
 Please consider implementing the [Product Mapping extension](ext/product-mapping.md) in your client to announce products with their respective type before transferring price information.
@@ -380,7 +380,7 @@ Status of a specific pump. Should be sent in response to a `PUMPS`, `PUMPSTATUS`
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the pump. Possible values: 1 to 99.
 - **Status** (arg1, string): current status of the pump. Supported values: **free**, **in-use**, **ready-to-pay**, **locked** or **out-of-order**. The value **in-transaction** is deprecated and will be removed in future versions; clients should not send it.
 
 ###### `PUMPS`
@@ -403,7 +403,7 @@ Get the status of a specific pump. The client must make sure that the status of 
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the concerned pump. Possible values: 1 to 99.
 - **UpdateTTL** (arg1, number, optional): time to live in seconds during which the server expects updates from the client. After the `OK` response, the client informs the server about status changes of the specified pump until the TTL expires. Only actual status changes should be sent in this case.
 
 Errors:
@@ -423,7 +423,7 @@ Note: `TRANSACTION` shall only be used if product was actually dispensed (non-ze
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the concerned pump. Possible values: 1 to 99.
 - **SiteTransactionID** (arg1, string): ID of this transaction. In the Post-Pay process, it is defined by the client (site). In the Pre-Auth process, the SiteTransactionID is the **FSCTransactionID** (provided with `UNLOCKPUMP`).
 - **Status** (arg2, string): current status of the transaction. Must be either **open** or **deferred**. A transaction is **open** if the payment has not yet been settled and the pump is **ready-to-pay** or **locked**. A transaction is **deferred** if it was previously **open** but the pump was released again by the site operator (set to **free**). This can happen if a customer was not able to pay for their fueling and the site operator needs to take further action. To avoid blocking the pump for other customers, the site operator releases it, and the previously **open** transaction of that pump is marked as **deferred**.
 - **ProductID** (arg3, string): identifier of the dispensed product.
@@ -434,7 +434,7 @@ Arguments:
 - **VATAmount** (arg8, decimal): amount of VAT used in the previous **PriceWithVAT** argument in the specified **Currency** (arg4). (e.g. for EUR: 13.86)
 - **Unit** (arg9, string): unit used by the subsequent **Volume** argument. Supported values: **LTR**
 - **Volume** (arg10, decimal): amount of product dispensed in the specified **Unit** (arg9). (e.g. for LTR: 64.85)
-- **PricePerUnit** (arg11, decimal): end user price per unit including VAT in the specified **Unit** (arg9) and the specified **Currency** (arg4). (e.g. for EUR/LTR: 1.339)
+- **PricePerUnit** (arg11, price): end user price per unit including VAT in the specified **Unit** (arg9) and the specified **Currency** (arg4). (e.g. for EUR/LTR: 1.339) At most 4 integer digits and 1 to 3 fractional digits (`dddd.ddd`); whole values must be sent with a fractional part (e.g. `589.0`).
 
 ###### `TRANSACTIONS`
 
@@ -446,7 +446,7 @@ Get all open or deferred transactions of the site, or of a specific pump if one 
 
 Arguments:
 
-- **Pump** (arg0, number, optional): identifier of the requested pump. Lowest possible value: 1.
+- **Pump** (arg0, pump, optional): identifier of the requested pump. Possible values: 1 to 99.
 - **UpdateTTL** (arg1, number, optional): time to live in seconds during which the server expects updates from the client. After the `OK` response, the client informs the server about transaction changes of the specified pump until the TTL expires. Only actual changes should be sent in this case. Only allowed if **Pump** (arg0) is also specified.
 
 Errors:
@@ -464,7 +464,7 @@ Unlock a locked pump with pre-authorized credit for a subsequent fueling process
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the concerned pump. Possible values: 1 to 99.
 - **Currency** (arg1, string): currency used by the subsequent **Credit** argument. Supported values, see [Supported Currencies](#416-supported-currencies), for example **EUR**.
 - **Credit** (arg2, decimal): credit available for the upcoming fueling process in the specified **Currency** (arg1). (e.g. for EUR: 100.00)
 - **FSCTransactionID** (arg3, uuid): ID defined by the server. It is returned with the corresponding `TRANSACTION` notification to correlate the transactions.
@@ -507,7 +507,7 @@ Informs the server that the transaction could not be completed due to an issue a
 
 Arguments:
 
-- **Pump** (arg0, number): identifier of the concerned pump. Lowest possible value: 1.
+- **Pump** (arg0, pump): identifier of the concerned pump. Possible values: 1 to 99.
 - **FSCTransactionID** (arg1, uuid): ID defined by the server, as provided with `UNLOCKPUMP`.
 - **Reason** (arg2, string): reason why the pump was locked
   - `aborted`: zero fueling/transaction
@@ -619,8 +619,11 @@ space = "\x20" .
 hexq = hex hex hex hex .
 uuid = hexq hexq "-" hexq "-" hexq "-" hexq "-" hexq hexq hexq .
 
-number = "0" | ( ( "1"…"9" ) digits ) .
+number = "0" | ( "1"…"9" ) { digit } .
 decimal = number "." digits .
+pump = ( "1"…"9" ) [ digit ] .
+price = ( "0" | ( "1"…"9" ) [ digit [ digit [ digit ] ] ] )
+    "." digit [ digit [ digit ] ] .
 string = char { char } .
 
 ident = letter { letter | digit } .
@@ -689,7 +692,7 @@ plainauth_method = "PLAINAUTH"
     space string .
 
 clear_method = "CLEAR"
-    space number
+    space pump
     space string
     space uuid
     space string .
@@ -698,29 +701,29 @@ heartbeat_method = "HEARTBEAT"
     space string .
 
 lockpump_method = "LOCKPUMP"
-    space number .
+    space pump .
 
 price_method = "PRICE"
     space string
     space unit
     space currency
-    space decimal
+    space price
     space argv .
 
 prices_method = "PRICES" .
 
 pump_method = "PUMP"
-    space number
+    space pump
     space pump_status .
 
 pumps_method = "PUMPS" .
 
 pumpstatus_method = "PUMPSTATUS"
-    space number
+    space pump
     [ space number ] .
 
 transaction_method = "TRANSACTION"
-    space number
+    space pump
     space string
     space transaction_status
     space string
@@ -731,13 +734,13 @@ transaction_method = "TRANSACTION"
     space decimal
     space unit
     space decimal
-    space decimal .
+    space price .
 
 transactions_method = "TRANSACTIONS"
-    [ space number [ space number ] ] .
+    [ space pump [ space number ] ] .
 
 unlockpump_method = "UNLOCKPUMP"
-    space number
+    space pump
     space currency
     space decimal
     space uuid
@@ -752,7 +755,7 @@ unlockpump_method = "UNLOCKPUMP"
     [ space string ] .
 
 lockedpump_method = "LOCKEDPUMP"
-    space number
+    space pump
     space uuid
     space string .
 
