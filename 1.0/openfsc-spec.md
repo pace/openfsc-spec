@@ -79,8 +79,8 @@ The documentation for the API and the interaction between the app and the Connec
 
 ## 2 Architecture Overview
 
-- The gas station (also referred to as the Site) uses either a POS (Point of Sale) or dedicated hardware (Site Connect Box) that connects to the OpenFSC server in order to enable Mobile Payment.
-- To connect the POS or the dedicated hardware to an OpenFSC server, an internet connection in conjunction with simple but secure communication protocols is used.
+- The gas station (also referred to as the Site) uses a POS (Point of Sale) or another site system that connects to the OpenFSC server in order to enable Mobile Payment.
+- To connect the POS or site system to an OpenFSC server, an internet connection in conjunction with simple but secure communication protocols is used.
 - On the customer side, multiple clients implement the Connected Fueling API, ranging from HMIs (Human Machine Interfaces) in new cars to retrofit solutions like the PACE Car platform, PACE Drive and many other mobility-focused mobile apps.
 
 ![assets/architecture-overview.png](assets/architecture-overview.png)
@@ -93,7 +93,7 @@ The main parties in the Connected Fueling process are:
 
   Uses a client of the Connected Fueling platform to get up-to-date information about the gas station and to pay for fuel.
 
-- The **gas station** using either a **POS**, a connected **Site controller**, **Site Connect software** running somewhere within the station's network, or a **Site Connect Box** running that software.
+- The **gas station** using either a **POS**, a connected **Site controller** or **Site Connect software** running somewhere within the station's network.
 
   One of the above components initiates the connection to the OpenFSC server to provide prices, pump statuses and (open) transactions, and to accept transaction clearing.
 
