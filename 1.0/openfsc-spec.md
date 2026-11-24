@@ -93,7 +93,7 @@ The main parties in the Connected Fueling process are:
 
   Uses a client of the Connected Fueling platform to get up-to-date information about the gas station and to pay for fuel.
 
-- The **gas station** using either a **POS**, a connected **Site controller** or **Site Connect software** running somewhere within the station's network.
+- The **gas station** using either a **POS** or a connected **Site controller**.
 
   One of the above components initiates the connection to the OpenFSC server to provide prices, pump statuses and (open) transactions, and to accept transaction clearing.
 
