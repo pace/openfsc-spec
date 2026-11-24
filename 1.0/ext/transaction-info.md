@@ -2,6 +2,8 @@
 
 A client may need additional transaction information, e.g. in case of payment by card. To signal to the server that it accepts this information, the client announces the `TRANSACTIONINFO` capability. If it does, the server sends the information for the transaction before clearing it (`CLEAR`) or, in the Pre-Auth process, before unlocking the pump (`UNLOCKPUMP`).
 
+Transaction information is only sent for payment methods that share card data with the site, for example fleet cards such as `dkv`. For the payment method `pace`, no card data is shared and the server never sends `TRANSACTIONINFO`; the transaction is cleared (or the pump unlocked) without it. The examples below therefore use `dkv`.
+
 **Since this information is very sensitive, the OpenFSC server may decline to send `TRANSACTIONINFO` even if the client accepts it. Eligibility for receiving `TRANSACTIONINFO` is stored in the OpenFSC backend and has to be agreed upon on a business level.**
 
 ## `TRANSACTIONINFO`
@@ -60,7 +62,7 @@ C: S4 OK
 S: * TRANSACTIONINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f PAN 92873498723498792384
 S: * TRANSACTIONINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f ApprovalCode 643972
 S: * TRANSACTIONINFO e2f74ef5-f427-4ae6-bdd3-70a96709992f Mileage 176439
-S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace
+S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f dkv
 C: S6 OK
 C: * QUIT bye bye
 ```
@@ -88,7 +90,7 @@ C: S1 OK
 S: * TRANSACTIONINFO 70644955-ef32-4d33-a88b-67b500a7c00d PAN 92873498723498792384
 S: * TRANSACTIONINFO 70644955-ef32-4d33-a88b-67b500a7c00d ApprovalCode 643972
 S: * TRANSACTIONINFO 70644955-ef32-4d33-a88b-67b500a7c00d Mileage 176439
-S: S2 UNLOCKPUMP 1 EUR 10.0 70644955-ef32-4d33-a88b-67b500a7c00d pace
+S: S2 UNLOCKPUMP 1 EUR 10.0 70644955-ef32-4d33-a88b-67b500a7c00d dkv
 C: S2 OK
 S: S3 PUMPS
 C: * PUMP 1 in-use
@@ -105,7 +107,7 @@ C: S5 OK
 S: S6 TRANSACTIONS 1
 C: * TRANSACTION 1 70644955-ef32-4d33-a88b-67b500a7c00d open 0100 EUR 5.50 4.62 19.00 0.88 LTR 4.37 1.258
 C: S6 OK
-S: S7 CLEAR 1 70644955-ef32-4d33-a88b-67b500a7c00d 70644955-ef32-4d33-a88b-67b500a7c00d pace
+S: S7 CLEAR 1 70644955-ef32-4d33-a88b-67b500a7c00d 70644955-ef32-4d33-a88b-67b500a7c00d dkv
 C: S7 OK
 C: * QUIT bye bye
 ```
