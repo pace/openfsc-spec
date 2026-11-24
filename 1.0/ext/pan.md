@@ -51,7 +51,7 @@ C: * TRANSACTION 3 c71b9838ad3dfc15 open 0100 EUR 86.83 72.97 19.0 13.86 LTR 64.
 C: S4 OK
 S: S5 PAN e2f74ef5-f427-4ae6-bdd3-70a96709992f 6546546546546544881
 C: S5 OK
-S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace
+S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f dkv
 C: S6 OK
 C: * QUIT bye bye
 ```
@@ -59,6 +59,6 @@ C: * QUIT bye bye
 The client should delete the PAN from its session store once the transaction has either succeeded or failed. If the PAN is required but was not received, the client may return the error `404` on clearing:
 
 ```
-S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f pace
+S: S6 CLEAR 3 c71b9838ad3dfc15 e2f74ef5-f427-4ae6-bdd3-70a96709992f dkv
 C: S6 ERR 404 PAN not found for transaction id
 ```
