@@ -133,6 +133,7 @@ Both processes start by updating the current pump and price information in order
 - The user selects a pump, which is reflected in the protocol by retrieving the current status of that pump once again. This is necessary because the user can go back to the overview and select another pump if the wrong one was chosen. Therefore, retrieving up-to-date pump information is the first step.
 - Requesting the pump status with a TTL (time to live) asks the client to continuously send status updates for the given pump for the given amount of time.
 - Once the pump reaches the **ready-to-pay** state, the open transactions are requested via OpenFSC. This information is used to show a nicely formatted bill to the customer.
+- A pump has at most one **open** transaction at a time. Stacked sales are not allowed (see [`TRANSACTION`](#transaction)).
 - The customer selects a payment method they have already registered in their digital wallet and pays. Please note: the registration of payment methods is not covered by this document.
 
 ![assets/post-pay-flow.png](assets/post-pay-process.png)
@@ -420,6 +421,8 @@ Direction: **Client → Server**
 Information about a specific open or deferred transaction of a pump. Should be sent in response to a previous `TRANSACTIONS` request and may be sent proactively whenever the status of a transaction changes.
 
 Note: `TRANSACTION` shall only be used if product was actually dispensed (non-zero amount/quantity). If the fueling is cancelled on the station side without any product being dispensed, please use [`LOCKEDPUMP`](#lockedpump) instead (only applicable to the Pre-Auth process).
+
+Note: a pump must never have more than one **open** transaction at a time. Stacking sales is not allowed: before a pump is released for the next fueling, its **open** transaction must be settled (cleared via OpenFSC or paid in the shop) or, if the site operator releases the pump, marked as **deferred**.
 
 Arguments:
 
